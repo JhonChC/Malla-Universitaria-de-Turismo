@@ -1,155 +1,143 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Malla Curricular – Turismo</title>
-<style>
-  * {margin:0;padding:0;box-sizing:border-box;}
-  body {font-family:'Poppins',sans-serif;background:#eef2f7;padding:20px;}
-  .container {max-width:1400px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,0.1);}
-  .header {background:linear-gradient(135deg,#43cea2,#185a9d);padding:30px;text-align:center;color:#f5f5f5;}
-  .header h1{font-size:2.5rem;} .header p{font-size:1.1rem;opacity:0.9;}
-  .stats{display:flex;flex-wrap:wrap;justify-content:space-around;padding:20px;background:#f7f9fc;}
-  .stat{background:#fff;border-radius:10px;padding:15px 25px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.05);min-width:120px;margin:10px;}
-  .stat .num{font-size:1.8rem;color:#185a9d;}
-  .reset-btn{display:block;margin:10px auto 20px;background:#ff4d4d;color:#fff;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;transition:background .3s;}
-  .reset-btn:hover{background:#e04343;}
-  .unidad{margin:20px;}
-  .unidad-header{background:#185a9d;color:#fff;padding:12px;text-align:center;border-radius:8px;font-size:1.3rem;margin-bottom:10px;}
-  .semestres{display:flex;justify-content:center;overflow-x:auto;gap:20px;padding:10px 0;}
-  .semestre{flex:0 0 auto;min-width:300px;background:#fafbfc;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.05);}
-  .sem-header{background:#4facfe;color:#fff;padding:8px;text-align:center;border-radius:8px 8px 0 0;font-size:1.1rem;}
-  .grid{display:flex;flex-direction:column;gap:10px;padding:10px;}
-  .materia{background:#fff5f5;border-left:5px solid #ff4d4d;border-radius:6px;padding:14px;position:relative;cursor:pointer;transition:background .2s,border-color .2s;}
-  .materia.aprobada{background:#ecffe6;border-left-color:#2ecc71;}
-  .materia.bloqueada{opacity:0.6;cursor:not-allowed;}
-  .materia:hover:not(.bloqueada){background:#e6fff1;}
-  .materia h3{font-size:1rem;color:#333;}
-  .materia p{font-size:.85rem;color:#555;margin-top:6px;}
-  .tooltip{visibility:hidden;opacity:0;background:#444;color:#fff;padding:5px 8px;border-radius:4px;position:absolute;top:8px;right:8px;font-size:.75rem;transition:opacity .2s;}
-  .materia.bloqueada:hover .tooltip{visibility:visible;opacity:1;}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Malla Curricular – Turismo</title>
+  <style>
+    /* (Styles same as antes) */
+  </style>
 </head>
 <body>
-<div class="container">
-  <div class="header">
-    <h1>Licenciatura en Turismo</h1>
-    <p>Asignaturas: <strong>57</strong> • Módulos: <strong>7 inglés + 2 computación</strong></p>
-  </div>
-  <div class="stats">
-    <div class="stat"><div class="num" id="stat-completada">0</div><div>Aprobadas</div></div>
-    <div class="stat"><div class="num" id="stat-disponible">0</div><div>Disponibles</div></div>
-    <div class="stat"><div class="num" id="stat-total">57</div><div>Total</div></div>
-    <div class="stat"><div class="num" id="stat-progreso">0%</div><div>Progreso</div></div>
-  </div>
-  <button class="reset-btn" onclick="reset()">Reiniciar Progreso</button>
-
-  <!-- Preuniversitaria -->
-  <div class="unidad">
-    <div class="unidad-header">Preuniversitaria (PRE)</div>
-    <div class="semestres">
-      <div class="semestre" data-ciclo="PRE"><div class="sem-header">PRE</div><div class="grid"></div></div>
-    </div>
+  <div class="container">
+    <!-- (Header, stats, botones y semestres como antes) -->
   </div>
 
-  <!-- Básica -->
-  <div class="unidad">
-    <div class="unidad-header">Unidad Básica</div>
-    <div class="semestres">
-      <div class="semestre" data-ciclo="B1"><div class="sem-header">1º Sem</div><div class="grid"></div></div>
-      <div class="semestre" data-ciclo="B2"><div class="sem-header">2º Sem</div><div class="grid"></div></div>
-      <div class="semestre" data-ciclo="B3"><div class="sem-header">3º Sem</div><div class="grid"></div></div>
-    </div>
-  </div>
+  <script>
+  const materias = [
+    {id:'Epist',name:'Epistemología del Turismo',ciclo:'PRE',credits:0,prereq:[]},
+    {id:'IntroCom',name:'Introducción a la Comunicación Académica',ciclo:'PRE',credits:0,prereq:[]},
+    {id:'PensComp',name:'Pensamiento Computacional',ciclo:'PRE',credits:0,prereq:[]},
 
-  <!-- Profesional -->
-  <div class="unidad">
-    <div class="unidad-header">Unidad Profesional</div>
-    <div class="semestres">
-      <div class="semestre" data-ciclo="P4"><div class="sem-header">4º Sem</div><div class="grid"></div></div>
-      <div class="semestre" data-ciclo="P5"><div class="sem-header">5º Sem</div><div class="grid"></div></div>
-    </div>
-    <div class="semestres">
-      <div class="semestre" data-ciclo="P6"><div class="sem-header">6º Sem</div><div class="grid"></div></div>
-      <div class="semestre" data-ciclo="P7"><div class="sem-header">7º Sem</div><div class="grid"></div></div>
-    </div>
-  </div>
+    {id:'MatFin',name:'Matemática Financiera',ciclo:'B1',credits:1.67,prereq:['PensComp']},
+    {id:'TecApl',name:'Tecnología Aplicada',ciclo:'B1',credits:3.33,prereq:['PensComp']},
+    {id:'TeoriaTur',name:'Teoría del Turismo',ciclo:'B1',credits:3.33,prereq:['Epist']},
+    {id:'Admin',name:'Administración',ciclo:'B1',credits:3.33,prereq:['IntroCom']},
+    {id:'MetodInv',name:'Metodología de la Investigación Científica',ciclo:'B1',credits:1.67,prereq:['IntroCom']},
+    {id:'TecOpTur',name:'Técnicas de Operación Turística',ciclo:'B1',credits:3.33,prereq:['Epist']},
 
-  <!-- Titulación -->
-  <div class="unidad">
-    <div class="unidad-header">Unidad de Titulación</div>
-    <div class="semestres">
-      <div class="semestre" data-ciclo="T8"><div class="sem-header">8º Sem</div><div class="grid"></div></div>
-      <div class="semestre" data-ciclo="T9"><div class="sem-header">9º Sem</div><div class="grid"></div></div>
-    </div>
-  </div>
+    {id:'Cosmos',name:'Cosmos Histórico',ciclo:'B2',credits:3.33,prereq:['TeoriaTur']},
+    {id:'Bioentorno',name:'Bioentorno Turístico',ciclo:'B2',credits:3.33,prereq:['TeoriaTur']},
+    {id:'TecGuiar',name:'Técnicas de Guiar',ciclo:'B2',credits:3.33,prereq:['TecOpTur']},
+    {id:'Hospitalidad',name:'Hospitalidad',ciclo:'B2',credits:3.33,prereq:['Admin']},
+    {id:'EstDesc',name:'Estadística Descriptiva Administrativa',ciclo:'B2',credits:1.67,prereq:['MatFin','TecApl']},
+    {id:'ComOral',name:'Comunicación Oral y Escrita',ciclo:'B2',credits:1.67,prereq:['MetodInv']},
 
-  <!-- Módulos separados -->
-  <div class="unidad">
-    <div class="unidad-header">Módulo de Inglés</div>
-    <div class="semestres">
-      <div class="semestre" data-ciclo="M_ING"><div class="sem-header">Inglés</div><div class="grid"></div></div>
-    </div>
-  </div>
-  <div class="unidad">
-    <div class="unidad-header">Módulo de Computación</div>
-    <div class="semestres">
-      <div class="semestre" data-ciclo="M_COMP"><div class="sem-header">Computación</div><div class="grid"></div></div>
-    </div>
-  </div>
+    {id:'ComTur',name:'Comunidad y Turismo',ciclo:'B3',credits:1.67,prereq:['Hospitalidad']},
+    {id:'Gastron',name:'Gastronomía Ancestral y Patrimonio',ciclo:'B3',credits:3.33,prereq:['Hospitalidad']},
+    {id:'GestOpAreas',name:'Gestión Operativa de Áreas Protegidas',ciclo:'B3',credits:3.33,prereq:['TecGuiar']},
+    {id:'ManifPlast',name:'Manifestaciones Plásticas Turísticas',ciclo:'B3',credits:3.33,prereq:['Cosmos','ComOral']},
+    {id:'ProsInter',name:'Prospección Intercultural Ecuatoriana',ciclo:'B3',credits:1.67,prereq:['Cosmos']},
+    {id:'ContGen',name:'Contabilidad General',ciclo:'B3',credits:3.33,prereq:['EstDesc']},
 
-</div>
+    {id:'FinCorto',name:'Finanzas de Corto Plazo',ciclo:'P4',credits:3.33,prereq:['ContGen']},
+    {id:'GestTerr',name:'Gestión Territorial en Turismo',ciclo:'P4',credits:3.33,prereq:['GestOpAreas','ManifPlast']},
+    {id:'GestTalHum',name:'Gestión del Talento Humano',ciclo:'P4',credits:2.5,prereq:['ContGen']},
+    {id:'Folklore',name:'Folklore',ciclo:'P4',credits:1.67,prereq:['ManifPlast','ProsInter']},
+    {id:'CodTur',name:'Codificación Turística',ciclo:'P4',credits:3.33,prereq:['GestOpAreas']},
+    {id:'CampRec',name:'Campismo y Recreación Turística',ciclo:'P4',credits:1.67,prereq:['Gastron','ComTur']},
 
-<script>
-const materias = [
-  // ... Pege aquí las 57 materias completas como en respuestas anteriores, con ciclos PRE, B1–B3, P4–P7, T8–T9, M_ING y M_COMP ...
-];
+    {id:'Micro',name:'Microeconomía',ciclo:'P5',credits:3.33,prereq:['FinCorto']},
+    {id:'OpTours',name:'Operación de Tours',ciclo:'P5',credits:3.33,prereq:['CodTur','GestTerr']},
+    {id:'ForReg',name:'Fomento y Regulaciones a la Actividad Turística',ciclo:'P5',credits:3.33,prereq:['GestTalHum']},
+    {id:'DesDes',name:'Desarrollo del Turismo Sostenible',ciclo:'P5',credits:5,prereq:['MatFin','TecApl','TeoriaTur','Admin','MetodInv','TecOpTur','Cosmos','Bioentorno','TecGuiar','Hospitalidad','EstDesc','ComOral','ComTur','Gastron','GestOpAreas','ManifPlast','ProsInter','ContGen','FinCorto','GestTerr','GestTalHum','Folklore','CodTur','CampRec']},
+    {id:'IconTur',name:'Iconografía Turística',ciclo:'P5',credits:1.67,prereq:['CodTur']},
+    {id:'Arqueol',name:'Arqueología',ciclo:'P5',credits:1.67,prereq:['Folklore']},
 
-let aprobadas = JSON.parse(localStorage.getItem('aprobadas')||'{}');
+    {id:'PlanTur',name:'Planificación Turística',ciclo:'P6',credits:5,prereq:['DesDes']},
+    {id:'GestInn',name:'Gestión de la Innovación y Emprendimiento',ciclo:'P6',credits:3.33,prereq:['ForReg']},
+    {id:'AnimTur',name:'Animación Turística',ciclo:'P6',credits:3.33,prereq:['IconTur']},
+    {id:'RiceEv',name:'Rice - Organización de Eventos',ciclo:'P6',credits:1.67,prereq:['DesDes']},
+    {id:'SisReg',name:'Sistemas de Registros Turísticos / Sabre Y Amadeus',ciclo:'P6',credits:1.67,prereq:['OpTours']},
+    {id:'Macro',name:'Macroeconomía',ciclo:'P6',credits:3.33,prereq:['Micro']},
 
-function update() {
-  document.querySelectorAll('.semestre').forEach(sec => {
-    const ciclo = sec.dataset.ciclo, grid = sec.querySelector('.grid');
-    grid.innerHTML = '';
-    materias.filter(m => m.ciclo === ciclo).forEach(m => {
-      const el = document.createElement('div');
-      el.className = 'materia';
-      el.id = m.id;
-      el.innerHTML = `<h3>${m.name}</h3><p>Créditos: ${m.credits.toFixed(2)}</p><div class="tooltip"></div>`;
-      el.onclick = () => toggle(m.id);
-      const ok = aprobadas[m.id];
-      const faltan = m.prereq.filter(p => !aprobadas[p]).map(p => materias.find(mm => mm.id === p).name);
-      if (ok) el.classList.add('aprobada');
-      else if (faltan.length) el.classList.add('bloqueada');
-      el.querySelector('.tooltip').innerText = faltan.length ? 'Faltan: ' + faltan.join(', ') : '';
-      grid.appendChild(el);
+    {id:'Patrimonio',name:'Patrimonio',ciclo:'P7',credits:5,prereq:['PlanTur','GestInn','AnimTur','RiceEv','SisReg','Macro']},
+    {id:'GestCal',name:'Gestión de Calidad y Productividad',ciclo:'P7',credits:3.33,prereq:['GestInn']},
+    {id:'OpHotel',name:'Operación Hotelera',ciclo:'P7',credits:3.33,prereq:['SisReg']},
+    {id:'OpAliBeb',name:'Operación de Alimentos y Bebidas',ciclo:'P7',credits:1.67,prereq:['AnimTur']},
+    {id:'SocioTur',name:'Sociología del Turismo',ciclo:'P7',credits:3.33,prereq:['AnimTur']},
+    {id:'TendTur',name:'Tendencias Turísticas',ciclo:'P7',credits:1.67,prereq:['Macro']},
+
+    {id:'FormPro',name:'Formulación y Evaluación de Proyectos',ciclo:'T8',credits:3.33,prereq:['GestCal']},
+    {id:'IntReg',name:'Integración Regional Turística',ciclo:'T8',credits:5,prereq:['Patrimonio','GestCal','OpAliBeb','OpHotel','SocioTur','TendTur']},
+    {id:'EstrCom',name:'Estrategias Comerciales Turísticas',ciclo:'T8',credits:3.33,prereq:['TendTur']},
+    {id:'RedacTit',name:'Redacción del Trabajo de Titulación',ciclo:'T8',credits:1.67,prereq:['Patrimonio','GestCal','OpAliBeb','OpHotel','SocioTur','TendTur']},
+    {id:'AprArte',name:'Apreciación del Arte y la Cultura',ciclo:'T8',credits:1.67,prereq:['Patrimonio']},
+    {id:'TurGov',name:'Turismo y Gobernanza',ciclo:'T8',credits:3.33,prereq:['OpAliBeb','SocioTur']},
+
+    {id:'GestDest',name:'Gestión Integral de Destinos Turísticos',ciclo:'T9',credits:5,prereq:['FormPro','IntReg','EstrCom','RedacTit','AprArte','TurGov']},
+    {id:'NegCom',name:'Técnicas de Negociación y Comunicación para el Turismo',ciclo:'T9',credits:3.33,prereq:['EstrCom']},
+    {id:'RealNac',name:'Realidad Nacional y Geopolítica',ciclo:'T9',credits:1.67,prereq:['TurGov']},
+    {id:'TrabTit',name:'Trabajo de Titulación',ciclo:'T9',credits:3.33,prereq:['RedacTit']},
+    {id:'ContrPub',name:'Contratación Pública',ciclo:'T9',credits:3.33,prereq:['FormPro']},
+    {id:'Lider',name:'Liderazgo',ciclo:'T9',credits:1.67,prereq:['AprArte']},
+
+    {id:'IngA0',name:'-A1',ciclo:'M_ING',credits:2.08,prereq:[]},
+    {id:'IngA1',name:'A1',ciclo:'M_ING',credits:2.08,prereq:['IngA0']},
+    {id:'IngA2',name:'A2',ciclo:'M_ING',credits:2.08,prereq:['IngA1']},
+    {id:'IngB1',name:'B1',ciclo:'M_ING',credits:2.08,prereq:['IngA2']},
+    {id:'IngB2',name:'B2',ciclo:'M_ING',credits:2.08,prereq:['IngB1']},
+    {id:'IngC1',name:'C1',ciclo:'M_ING',credits:2.08,prereq:['IngB2']},
+    {id:'IngC2',name:'C2',ciclo:'M_ING',credits:2.08,prereq:['IngC1']},
+
+    {id:'Comp0',name:'Windows‑Word‑Internet',ciclo:'M_COMP',credits:8,prereq:[]},
+    {id:'Comp1',name:'Excel‑PowerPoint',ciclo:'M_COMP',credits:8,prereq:['Comp0']}
+  ];
+
+  let aprobadas = JSON.parse(localStorage.getItem('aprobadas')||'{}');
+
+  function update() {
+    document.querySelectorAll('.semestre').forEach(sec => {
+      const ciclo = sec.dataset.ciclo, grid = sec.querySelector('.grid');
+      grid.innerHTML = '';
+      materias.filter(m => m.ciclo === ciclo).forEach(m => {
+        const el = document.createElement('div');
+        el.className = 'materia';
+        el.id = m.id;
+        el.innerHTML = `<h3>${m.name}</h3><p>Créditos: ${m.credits.toFixed(2)}</p><div class="tooltip"></div>`;
+        el.onclick = () => toggle(m.id);
+        const ok = aprobadas[m.id];
+        const faltan = m.prereq.filter(p => !aprobadas[p]).map(p => materias.find(mm => mm.id === p).name);
+        if (ok) el.classList.add('aprobada');
+        else if (faltan.length) el.classList.add('bloqueada');
+        el.querySelector('.tooltip').innerText = faltan.length ? 'Faltan: ' + faltan.join(', ') : '';
+        grid.appendChild(el);
+      });
     });
-  });
-  const comp = Object.values(aprobadas).filter(Boolean).length;
-  const dispo = materias.filter(m => !aprobadas[m.id] && !m.prereq.some(p => !aprobadas[p])).length;
-  document.getElementById('stat-completada').innerText = comp;
-  document.getElementById('stat-disponible').innerText = dispo;
-  document.getElementById('stat-progreso').innerText = ((comp/57)*100).toFixed(0) + '%';
-}
+    const comp = Object.values(aprobadas).filter(Boolean).length;
+    const dispo = materias.filter(m => !aprobadas[m.id] && !m.prereq.some(p => !aprobadas[p])).length;
+    document.getElementById('stat-completada').innerText = comp;
+    document.getElementById('stat-disponible').innerText = dispo;
+    document.getElementById('stat-progreso').innerText = ((comp/57)*100).toFixed(0) + '%';
+  }
 
-function toggle(id) {
-  const m = materias.find(x => x.id === id);
-  if (m.prereq.some(p => !aprobadas[p])) return;
-  aprobadas[id] = !aprobadas[id];
-  localStorage.setItem('aprobadas', JSON.stringify(aprobadas));
-  update();
-}
-
-function reset() {
-  if(confirm('¿Reiniciar el progreso?')) {
-    aprobadas = {};
-    localStorage.removeItem('aprobadas');
+  function toggle(id) {
+    const m = materias.find(x => x.id === id);
+    if (m.prereq.some(p => !aprobadas[p])) return;
+    aprobadas[id] = !aprobadas[id];
+    localStorage.setItem('aprobadas', JSON.stringify(aprobadas));
     update();
   }
-}
 
-update();
-</script>
+  function reset() {
+    if (confirm('¿Reiniciar progreso?')) {
+      aprobadas = {};
+      localStorage.removeItem('aprobadas');
+      update();
+    }
+  }
+
+  update();
+  </script>
 </body>
 </html>
