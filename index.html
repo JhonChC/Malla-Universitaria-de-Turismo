@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malla Curricular - Licenciatura en Turismo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 10px;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            border-radius: 10px;
+            color: white;
+        }
+
+        .semesters {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 10px;
+        }
+
+        .semester {
+            min-width: 280px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .semester-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+            padding: 10px;
+            background: #667eea;
+            color: white;
+            border-radius: 8px;
+        }
+
+        .subject {
+            margin-bottom: 10px;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            border: 2px solid transparent;
+        }
+
+        .subject.available {
+            background: #e3f2fd;
+            border-color: #2196f3;
+        }
+
+        .subject.available:hover {
+            background: #bbdefb;
+            transform: translateY(-2px);
+        }
+
+        .subject.approved {
+            background: #e8f5e8;
+            border-color: #4caf50;
+        }
+
+        .subject.blocked {
+            background: #ffebee;
+            border-color: #f44336;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .subject-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+
+        .subject-credits {
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        .subject.approved .subject-name {
+            color: #4caf50;
+        }
+
+        .subject.blocked .subject-name {
+            color: #f44336;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: #333;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            z-index: 1000;
+            max-width: 250px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .tooltip.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modules-section {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .module-group {
+            flex: 1;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .module-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 15px;
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .english-title {
+            background: #ff6b6b;
+        }
+
+        .computing-title {
+            background: #4ecdc4;
+        }
+
+        .reset-button {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .reset-button:hover {
+            background: #d32f2f;
+        }
+
+        @media (max-width: 768px) {
+            .semesters {
+                flex-direction: column;
+            }
+            
+            .semester {
+                min-width: auto;
+            }
+            
+            .modules-section {
+                flex-direction: column;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>LICENCIATURA EN TURISMO</h1>
+            <p>Malla Curricular Interactiva</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number" id="totalSubjects">57</div>
+                <div class="stat-label">Total Asignaturas</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="approvedSubjects">0</div>
+                <div class="stat-label">Aprobadas</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="totalModules">9</div>
+                <div class="stat-label">Total Módulos</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="approvedModules">0</div>
+                <div class="stat-label">Módulos Aprobados</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="totalCredits">0</div>
+                <div class="stat-label">Créditos Acumulados</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">UNIDAD PREUNIVERSITARIA</div>
+            <div class="semesters">
+                <div class="semester">
+                    <div class="semester-title">PRE</div>
+                    <div class="subject available" data-subject="epistemologia">
+                        <div class="subject-name">Epistemología del Turismo</div>
+                        <div class="subject-credits">Créditos: N/A</div>
+                    </div>
+                    <div class="subject available" data-subject="comunicacion_academica">
+                        <div class="subject-name">Introducción a la Comunicación Académica</div>
+                        <div class="subject-credits">Créditos: N/A</div>
+                    </div>
+                    <div class="subject available" data-subject="pensamiento_computacional">
+                        <div class="subject-name">Pensamiento Computacional</div>
+                        <div class="subject-credits">Créditos: N/A</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">UNIDAD BÁSICA</div>
+            <div class="semesters">
+                <div class="semester">
+                    <div class="semester-title">1ER SEMESTRE</div>
+                    <div class="subject blocked" data-subject="matematica_financiera" data-prerequisites="pensamiento_computacional">
+                        <div class="subject-name">Matemática Financiera</div>
+                        <div class="subject-credits">Créditos: 1.67</div>
+                    </div>
+                    <div class="subject blocked" data-subject="tecnologia_aplicada" data-prerequisites="pensamiento_computacional">
+                        <div class="subject-name">Tecnología Aplicada</div>
+                        <div class="subject-credits">Créditos: 3.33</div>
+                    </div>
+                    <div class="subject blocked" data-subject="teoria_turismo" data-prerequisites="epistemologia">
+                        <div class="subject-name">Teoría Del Turismo</div>
+                        <div class="subject-credits">Créditos: 3.33</div>
+                    </div>
+                    <div class="subject blocked" data-subject="administracion" data-prerequisites="comunicacion_academica">
+                        <div class="subject-name">Administración</div>
+                        <div class="subject-credits">Créditos: 3.33</div>
+                    </div>
+                    <div class="subject blocked" data-subject="metodologia_investigacion" data-prerequisites="comunicacion_academica">
+                        <div class="subject-name">Metodología De La Investigación Científica</div>
+                        <div class="subject-credits">Créditos: 1.67</div>
+                    </div>
+                    <div class="subject blocked" data-subject="tecnicas_operacion" data-prerequisites="epistemologia">
+                        <div class="subject-name">Técnicas De Operación Turística</div>
+                        <div class="subject-credits">Créditos: 3.33</div>
+                    </div>
+                </div>
+
+                <div class="semester">
+                    <div class="semester-title">2DO SEMESTRE</div>
+                    <div class="subject blocked" data-subject="cosmos_historico" data-prerequisites="teoria_turismo">
+                        <div class="subject-name">Cosmos Histórico</div>
+                        <div class="subject-credits">Créditos: 3.33</div>
+                    </div>
+                    <div class="subject blocked" data-subject="bioentorno_turistico" data-prerequisites="teoria_turismo">
+                        <div class="subject-name">Bioentorno Turístico</div>
+                        <div class="subject-credits">Créditos: 3.33</div>
+                    </div>
+                    <div class="subject blocked" data-subject="tecnicas_guiar" data-prerequisites="tecnicas_operacion">
+                        <div class="subject-name">Técnicas De Guiar</div>
+                        <div class="subject-credits">Créditos: 3.33</div>
+                    </div>
+                    <div class="subject blocked" data-subject="hospitalidad" data-prerequisites="administracion">
+                        <div class="subject-name">Hospitalidad</div>
+                        <div class="subject-credits">Créditos: 3.33</div>
+                    </div>
+                    <div class="subject blocked" data-subject="estadistica_descriptiva" data-prerequisites="matematica_financiera,tecnologia_aplicada">
+                        <div class="subject-name">Estadística Descriptiva Administrativa</div>
+                        <div class="subject-credits">Créditos: 1.67</div>
+                    </div>
+                    <div class="subject blocked" data-subject="comunicacion_oral" data-prerequisites="metodologia_investigacion">
+                        <div class="subject-name">Comunicación Oral Y Escrita</div>
+                        <div class="subject-credits">Créditos: 1.67</div>
+                    </div>
+                </div>
+
+                <div class="semester">
+                    <div class="semester-title">3ER SEMESTRE</div>
+                    <div class="subject blocked" data-subject="comunidad_turismo" data-prerequisites="hospitalidad">
+                        <div class="subject-name">Comunidad Y Turismo</div>
+                        <div class="subject-credits">Créditos: 1.67</div>
+                    </div>
+                    <div class="subject blocked" data-subject="gastronomia_ancestral" data-prerequisites="hospitalidad">
+                        <div class="subject-name">Gastronomía Ancestral Y Patrimonio</div>
+                        <div class="subject-credits">Créditos: 3.33</div>
+                    </div>
+                    <div class="subject blocked" data-subject="gestion_areas_protegidas" data-prerequisites="tecnicas_guiar">
+                        <div class="subject-name">Gestión Operativa De Áreas Protegidas</div>
+                        <div class="subject-credits">Créditos: 3.33</div>
+                    </div>
+                    <div class="subject blocked" data-subject="manifestaciones_plasticas" data-prerequisites="cosmos_historico,comunicacion_oral">
+                        <div class="subject-name">Manifestaciones Plásticas Turísticas</div>
+                        <div class="subject-credits">Créditos: 3.33</div>
+                    </div>
+                    <div class="subject blocked" data-subject="prospeccion_intercultural" data-prerequisites="cosmos_historico">
+                        <div class="subject-name">Prospección Intercultural Ecuatoriana</div>
+                        <div class="subject-credits">Créditos: 1.67</div>
+                    </div>
+                    <div class="subject blocked" data-subject="contabilidad_general" data-prerequisites="estadistica_descriptiva">
+                        <div class="subject-name">Contabilidad General</div>
+                        <div class="subject-credits">Créditos: 3.33</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">UNIDAD PROFESIONAL</div>
+            <div class="semesters">
+                <div class="semester">
+                    <div class="semester-title">4TO SEMESTRE</div>
+                    <div class="subject blocked" data-subject="finanzas_corto_plazo" data-prerequisites="contabilidad_general">
+                        <div class="subject-name">Finanzas De Corto Plazo</div>
+                        <div class="subject-credits">Créditos: 3.33</div>
+                    </div>
+                    <div class="subject blocked" data-subject="gestion_territorial" data-prerequisites="gestion_areas_protegidas,manifestaciones_plasticas">
+                        <div class="subject-name">Gestión Territorial En Turismo</div>
+                        <div class="subject-credits">Créditos: 3.33</div>
+                    </div>
+                    <div class="subject blocked" data-subject="gestion_talento_humano" data-prerequisites="contabilidad_general">
+                        <div class="subject-name">Gestión Del Talento Humano Por Competencias</div>
+                        <div class="subject-credits">Créditos: 2.5</div>
+                    </div>
+                    <div class="subject blocked" data-subject="folklore" data-prerequisites="manifestaciones_plasticas,prospeccion_intercultural">
+                        <div class="subject-name">Folklore</div>
+                        <div class="subject-credits">Créditos: 1.67</div>
+                    </div>
+                    <div class="subject blocked" data-subject="codificacion_turistica" data-prerequisites="gestion_areas_protegidas">
+                        <div class="subject-name">Codificación Turística</div>
+                        <div class="subject-credits">Créditos: 3.33</div>
+                    </div>
+                    <div class="subject blocked" data-subject="campismo_recreacion" data-prerequisites="gastronomia_ancestral,comunidad_turismo">
+                        <div class="subject-name">Campismo Y Recreación Turística</div>
+                        <div class="subject-credits">Créditos: 1.67</div>
+                    </div>
+                </div>
+
+                <div class="semester">
+                    <div class="semester-title">5TO SEMESTRE</div>
+                    <div class="subject blocked" data-subject="arqueologia" data-prerequisites="folklore">
+                        <div class="subject-name">Arqueología</div>
+                        <div class="subject-credits">Créditos: 1.67</div>
+                    </div>
+                    <div class="subject blocked" data-subject="microeconomia" data-prerequisites="finanzas_corto_plazo">
+                        <div class="subject-name">Microeconomía</div>
+                        <div class="subject-credits">Créditos: 3.33</div>
+                    </div>
+                    <div class="subject blocked" data-subject="iconografia_turistica" data-prerequisites="campismo_recreacion">
+                        <div class="subject-name">Iconografía Turística</div>
+                        <div class="subject-credits">Créditos: 1.67</div>
+                    </div>
+                    <div class="subject blocked" data-subject="operacion_tours" data-prerequisites="codificacion_turistica,gestion_territorial">
+                        <div class="subject-name">Operación De Tours</div>
+                        <div class="subject-credits">Créditos: 3.33</div>
+                    </div>
+                    <div class="subject blocked" data-subject="fomento_regulaciones" data-prerequisites="gestion_talento_humano">
+                        <div class="subject-name">Fomento Y Regulaciones A La Actividad Turística</div>
+                        <div class="subject-credits">Créditos: 3.33</div>
+                    </div>
+                    <div class="subject blocked" data-subject="desarrollo_sostenible" data-prerequisites="matematica_financiera,tecnologia_aplicada,teoria_turismo,administracion,metodologia_investigacion,tecnicas_operacion,cosmos_historico,bioentorno_turistico,tecnicas_guiar,hospitalidad,estadistica_descriptiva,comunicacion_oral,comunidad_turismo,gastronomia_ancestral,gestion_areas_protegidas,manifestaciones_plasticas,prospeccion_intercultural,contabilidad_general,finanzas_corto_plazo,gestion_territorial,gestion_talento_humano,folklore,codificacion_turistica,campismo_recreacion">
+                        <div class="subject-name">Desarrollo Del Turismo Sostenible</div>
+                        <div class="subject-credits">Créditos: 5</div>
+                    </div>
+                </div>
+
+                <div class="semester">
+                    <div class="semester-title">6TO SEMESTRE</div>
+                    <div class="subject blocked" data-subject="planificacion_turistica" data-prerequisites="matematica_financiera,tecnologia_aplicada,teoria_turismo,administracion,metodologia_investigacion,tecnicas_operacion,cosmos_historico,bioentorno_turistico,tecnicas_guiar,hospitalidad,estadistica_descriptiva,comunicacion_oral,comunidad_turismo,gastronomia_ancestral,gestion_areas_protegidas,manifestaciones_plasticas,prospeccion_intercultural,contabilidad_general,finanzas_corto_plazo,gestion_territorial,gestion_talento_humano,folklore,codificacion_turistica,campismo_recreacion,arqueologia,microeconomia,iconografia_turistica,operacion_tours,fomento_regulaciones,desarrollo_sostenible">
+                        <div class="subject-name">Planificación Turística</div>
+                        <div class="subject-credits">Créditos: 5</div>
+                    </div>
+                    <div class="subject blocked" data-subject="gestion_innovacion" data-prerequisites="fomento_regulaciones">
+                        <div class="subject-name">Gestión De La Innovación Y Emprendimiento</div>
+                        <div class="subject-credits">Créditos: 3.33</div>
+                    </div>
+                    <div class="subject blocked" data-subject="animacion_turistica" data-prerequisites="iconografia_turistica">
+                        <div class="subject-name">Animación Turística</div>
+                        <div class="subject-credits">Créditos: 3.33</div>
+                    </div>
+                    <div class="subject blocked" data-subject="rice_eventos" data-prerequisites="desarrollo_sostenible">
+                        <div class="subject-name">Rice - Organización De Eventos</div>
+                        <div class="subject-credits">Créditos: 1.67</div>
+                    </div>
+                    <div class="subject blocked" data-subject="sistemas_registros" data-prerequisites="operacion_tours">
+                        <div class="subject-name">Sistemas De Registros Turísticos / Sabre Y Amadeus</div>
+                        <div class="subject-credits">Créditos: 1.67</div>
+                    </div>
+                    <div class="subject blocked" data-subject="macroeconomia" data-prerequisites="microeconomia">
+                        <div class="subject-name">Macroeconomía</div>
+                        <div class="subject-credits">Créditos: 3.33</div>
+                    </div>
+                </div>
+
+                <div class="semester">
+                    <div class="semester-title">7MO SEMESTRE</div>
+                    <div class="subject blocked" data-subject="patrimonio" data-prerequisites="planificacion_turistica,gestion_innovacion,animacion_turistica,rice_eventos,sistemas_registros,macroeconomia">
+                        <div class="subject-name">Patrimonio</div>
+                        <div class="subject-credits">Créditos: 5</div>
+                    </div>
+                    <div class="subject blocked" data-subject="gestion_calidad" data-prerequisites="gestion_innovacion">
+                        <div class="subject-name">Gestión De Calidad Y La Productividad</div>
+                        <div class="subject-credits">Créditos: 3.33</div>
+                    </div>
+                    <div class="subject blocked" data-subject="operacion_alimentos" data-prerequisites="animacion_turistica">
+                        <div class="subject-name">Operación De Alimentos Y Bebidas</div>
+                        <div class="subject-credits">Créditos: 1.67</div>
+                    </div>
+                    <div class="subject blocked" data-subject="operacion_hotelera" data-prerequisites="sistemas_registros">
+                        <div class="subject-name">Operación Hotelera</div>
+                        <div class="subject-credits">Créditos: 3.33</div>
+                    </div>
+                    <div class="subject blocked" data-subject="sociologia_turismo" data-prerequisites="animacion_turistica">
+                        <div class="subject-name">Sociología Del Turismo</div>
+                        <div class="subject-credits">Créditos: 3.33</div>
+                    </div>
+                    <div class="subject blocked" data-subject="tendencias_turisticas" data-prerequisites="macroeconomia">
+                        <div class="subject-name">Tendencias Turísticas</div>
+                        <div class="subject-credits">Créditos: 1.67</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">UNIDAD DE TITULACIÓN</div>
+            <div class="semesters">
+                <div class="semester">
+                    <div class="semester-title">8VO SEMESTRE</div>
+                    <div class="subject blocked" data-subject="formulacion_proyectos" data-prerequisites="gestion_calidad">
+                        <div class="subject-name">Formulación Y Evaluación De Proyectos</div>
+                        <div class="subject-credits">Créditos: 3.33</div>
+                    </div>
+                    <div class="subject blocked" data-subject="integracion_regional" data-prerequisites="patrimonio,gestion_calidad,operacion_alimentos,operacion_hotelera,sociologia_turismo,tendencias_turisticas">
+                        <div class="subject-name">Integración Regional Turística</div>
+                        <div class="subject-credits">Créditos: 5</div>
+                    </div>
+                    <div class="subject blocked" data-subject="estrategias_comerciales" data-prerequisites="tendencias_turisticas">
+                        <div class="subject-name">Estrategias Comerciales Turísticas</div>
+                        <div class="subject-credits">Créditos: 3.33</div>
+                    </div>
+                    <div class="subject blocked" data-subject="redaccion_titulacion" data-prerequisites="patrimonio,gestion_calidad,operacion_alimentos,operacion_hotelera,sociologia_turismo,tendencias_turisticas">
+                        <div class="subject-name">Redacción Del Trabajo De Titulación</div>
+                        <div class="subject-credits">Créditos: 1.67</div>
+                    </div>
+                    <div class="subject blocked" data-subject="apreciacion_arte" data-prerequisites="patrimonio">
+                        <div class="subject-name">Apreciación Del Arte Y La Cultura</div>
+                        <div class="subject-credits">Créditos: 1.67</div>
+                    </div>
+                    <div class="subject blocked" data-subject="turismo_gobernanza" data-prerequisites="operacion_alimentos,sociologia_turismo">
+                        <div class="subject-name">Turismo Y Gobernanza</div>
+                        <div class="subject-credits">Créditos: 3.33</div>
+                    </div>
+                </div>
+
+                <div class="semester">
+                    <div class="semester-title">9NO SEMESTRE</div>
+                    <div class="subject blocked" data-subject="gestion_destinos" data-prerequisites="formulacion_proyectos,integracion_regional,estrategias_comerciales,redaccion_titulacion,apreciacion_arte,turismo_gobernanza">
+                        <div class="subject-name">Gestión Integral De Destinos Turísticos</div>
+                        <div class="subject-credits">Créditos: 5</div>
+                    </div>
+                    <div class="subject blocked" data-subject="tecnicas_negociacion" data-prerequisites="estrategias_comerciales">
+                        <div class="subject-name">Técnicas De Negociación Y Comunicación Para El Turismo</div>
+                        <div class="subject-credits">Créditos: 3.33</div>
+                    </div>
+                    <div class="subject blocked" data-subject="realidad_nacional" data-prerequisites="turismo_gobernanza">
+                        <div class="subject-name">Realidad Nacional Y Geopolítica</div>
+                        <div class="subject-credits">Créditos: 1.67</div>
+                    </div>
+                    <div class="subject blocked" data-subject="trabajo_titulacion" data-prerequisites="redaccion_titulacion">
+                        <div class="subject-name">Trabajo De Titulación</div>
+                        <div class="subject-credits">Créditos: 3.33</div>
+                    </div>
+                    <div class="subject blocked" data-subject="contratacion_publica" data-prerequisites="formulacion_proyectos">
+                        <div class="subject-name">Contratación Pública</div>
+                        <div class="subject-credits">Créditos: 3.33</div>
+                    </div>
+                    <div class="subject blocked" data-subject="liderazgo" data-prerequisites="apreciacion_arte">
+                        <div class="subject-name">Liderazgo</div>
+                        <div class="subject-credits">Créditos: 1.67</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">MÓDULOS</div>
+            <div class="modules-section">
+                <div class="module-group">
+                    <div class="module-title english-title">INGLÉS</div>
+                    <div class="subject available" data-subject="ingles_a1_neg">
+                        <div class="subject-name">-A1</div>
+                        <div class="subject-credits">Créditos: 2.08</div>
+                    </div>
+                    <div class="subject blocked" data-subject="ingles_a1" data-prerequisites="ingles_a1_neg">
+                        <div class="subject-name">A1</div>
+                        <div class="subject-credits">Créditos: 2.08</div>
+                    </div>
+                    <div class="subject blocked" data-subject="ingles_a2" data-prerequisites="ingles_a1">
+                        <div class="subject-name">A2</div>
+                        <div class="subject-credits">Créditos: 2.08</div>
+                    </div>
+                    <div class="subject blocked" data-subject="ingles_b1" data-prerequisites="ingles_a2">
+                        <div class="subject-name">B1</div>
+                        <div class="subject-credits">Créditos: 2.08</div>
+                    </div>
+                    <div class="subject blocked" data-subject="ingles_b2" data-prerequisites="ingles_b1">
+                        <div class="subject-name">B2</div>
+                        <div class="subject-credits">Créditos: 2.08</div>
+                    </div>
+                    <div class="subject blocked" data-subject="ingles_c1" data-prerequisites="ingles_b2">
+                        <div class="subject-name">C1</div>
+                        <div class="subject-credits">Créditos: 2.08</div>
+                    </div>
+                    <div class="subject blocked" data-subject="ingles_c2" data-prerequisites="ingles_c1">
+                        <div class="subject-name">C2</div>
+                        <div class="subject-credits">Créditos: 2.08</div>
+                    </div>
+                </div>
+
+                <div class="module-group">
+                    <div class="module-title computing-title">COMPUTACIÓN</div>
+                    <div class="subject available" data-subject="windows_word">
+                        <div class="subject-name">Windows - Word - Internet</div>
+                        <div class="subject-credits">Créditos: 8</div>
+                    </div>
+                    <div class="subject blocked" data-subject="excel_powerpoint" data-prerequisites="windows_word">
+                        <div class="subject-name">Excel - Power Point</div>
+                        <div class="subject-credits">Créditos: 8</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <button class="reset-button" onclick="resetProgress()">Reiniciar Progreso</button>
+        </div>
+
+        <div class="tooltip" id="tooltip"></div>
+    </div>
+
+    <script>
+        // Definir créditos por materia
+        const subjectCredits = {
+            'matematica_financiera': 1.67,
+            'tecnologia_aplicada': 3.33,
+            'teoria_turismo': 3.33,
+            'administracion': 3.33,
+            'metodologia_investigacion': 1.67,
+            'tecnicas_operacion': 3.33,
+            'cosmos_historico': 3.33,
+            'bioentorno_turistico': 3.33,
+            'tecnicas_guiar': 3.33,
+            'hospitalidad': 3.33,
+            'estadistica_descriptiva': 1.67,
+            'comunicacion_oral': 1.67,
+            'comunidad_turismo': 1.67,
+            'gastronomia_ancestral': 3.33,
+            'gestion_areas_protegidas': 3.33,
+            'manifestaciones_plasticas': 3.33,
+            'prospeccion_intercultural': 1.67,
+            'contabilidad_general': 3.33,
+            'finanzas_corto_plazo': 3.33,
+            'gestion_territorial': 3.33,
+            'gestion_talento_humano': 2.5,
+            'folklore': 1.67,
+            'codificacion_turistica': 3.33,
+            'campismo_recreacion': 1.67,
+            'arqueologia': 1.67,
+            'microeconomia': 3.33,
+            'iconografia_turistica': 1.67,
+            'operacion_tours': 3.33,
+            'fomento_regulaciones': 3.33,
+            'desarrollo_sostenible': 5,
+            'planificacion_turistica': 5,
+            'gestion_innovacion': 3.33,
+            'animacion_turistica': 3.33,
+            'rice_eventos': 1.67,
+            'sistemas_registros': 1.67,
+            'macroeconomia': 3.33,
+            'patrimonio': 5,
+            'gestion_calidad': 3.33,
+            'operacion_alimentos': 1.67,
+            'operacion_hotelera': 3.33,
+            'sociologia_turismo': 3.33,
+            'tendencias_turisticas': 1.67,
+            'formulacion_proyectos': 3.33,
+            'integracion_regional': 5,
+            'estrategias_comerciales': 3.33,
+            'redaccion_titulacion': 1.67,
+            'apreciacion_arte': 1.67,
+            'turismo_gobernanza': 3.33,
+            'gestion_destinos': 5,
+            'tecnicas_negociacion': 3.33,
+            'realidad_nacional': 1.67,
+            'trabajo_titulacion': 3.33,
+            'contratacion_publica': 3.33,
+            'liderazgo': 1.67,
+            'ingles_a1_neg': 2.08,
+            'ingles_a1': 2.08,
+            'ingles_a2': 2.08,
+            'ingles_b1': 2.08,
+            'ingles_b2': 2.08,
+            'ingles_c1': 2.08,
+            'ingles_c2': 2.08,
+            'windows_word': 8,
+            'excel_powerpoint': 8
+        };
+
+        // Cargar progreso desde localStorage
+        let approvedSubjects = JSON.parse(localStorage.getItem('approvedSubjects')) || [];
+
+        // Función para actualizar el estado de las materias
+        function updateSubjectStatus() {
+            const subjects = document.querySelectorAll('.subject');
+            
+            subjects.forEach(subject => {
+                const subjectId = subject.getAttribute('data-subject');
+                const prerequisites = subject.getAttribute('data-prerequisites');
+                
+                if (approvedSubjects.includes(subjectId)) {
+                    subject.classList.remove('available', 'blocked');
+                    subject.classList.add('approved');
+                } else if (prerequisites) {
+                    const requiredSubjects = prerequisites.split(',');
+                    const canTake = requiredSubjects.every(req => approvedSubjects.includes(req.trim()));
+                    
+                    if (canTake) {
+                        subject.classList.remove('blocked');
+                        subject.classList.add('available');
+                    } else {
+                        subject.classList.remove('available');
+                        subject.classList.add('blocked');
+                    }
+                } else {
+                    subject.classList.remove('blocked');
+                    subject.classList.add('available');
+                }
+            });
+        }
+
+        // Función para actualizar estadísticas
+        function updateStats() {
+            const totalSubjects = 57;
+            const totalModules = 9;
+            const approvedCount = approvedSubjects.length;
+            
+            // Calcular módulos aprobados
+            const englishModules = ['ingles_a1_neg', 'ingles_a1', 'ingles_a2', 'ingles_b1', 'ingles_b2', 'ingles_c1', 'ingles_c2'];
+            const computingModules = ['windows_word', 'excel_powerpoint'];
+            const approvedModules = [...englishModules, ...computingModules].filter(module => approvedSubjects.includes(module)).length;
+            
+            // Calcular créditos totales
+            const totalCredits = approvedSubjects.reduce((sum, subjectId) => {
+                return sum + (subjectCredits[subjectId] || 0);
+            }, 0);
+            
+            document.getElementById('approvedSubjects').textContent = approvedCount;
+            document.getElementById('approvedModules').textContent = approvedModules;
+            document.getElementById('totalCredits').textContent = totalCredits.toFixed(2);
+        }
+
+        // Función para manejar clics en materias
+        function handleSubjectClick(event) {
+            const subject = event.currentTarget;
+            const subjectId = subject.getAttribute('data-subject');
+            
+            if (subject.classList.contains('available')) {
+                // Aprobar materia
+                if (!approvedSubjects.includes(subjectId)) {
+                    approvedSubjects.push(subjectId);
+                    localStorage.setItem('approvedSubjects', JSON.stringify(approvedSubjects));
+                    updateSubjectStatus();
+                    updateStats();
+                }
+            } else if (subject.classList.contains('approved')) {
+                // Desaprobar materia
+                approvedSubjects = approvedSubjects.filter(id => id !== subjectId);
+                localStorage.setItem('approvedSubjects', JSON.stringify(approvedSubjects));
+                updateSubjectStatus();
+                updateStats();
+            }
+        }
+
+        // Función para mostrar tooltip
+        function showTooltip(event) {
+            const subject = event.currentTarget;
+            const prerequisites = subject.getAttribute('data-prerequisites');
+            
+            if (subject.classList.contains('blocked') && prerequisites) {
+                const tooltip = document.getElementById('tooltip');
+                const requiredSubjects = prerequisites.split(',');
+                const missingSubjects = requiredSubjects.filter(req => !approvedSubjects.includes(req.trim()));
+                
+                if (missingSubjects.length > 0) {
+                    const subjectNames = missingSubjects.map(id => {
+                        const subjectElement = document.querySelector(`[data-subject="${id.trim()}"]`);
+                        return subjectElement ? subjectElement.querySelector('.subject-name').textContent : id;
+                    });
+                    
+                    tooltip.innerHTML = `<strong>Requisitos faltantes:</strong><br>${subjectNames.join('<br>')}`;
+                    tooltip.style.left = event.pageX + 10 + 'px';
+                    tooltip.style.top = event.pageY + 10 + 'px';
+                    tooltip.classList.add('show');
+                }
+            }
+        }
+
+        // Función para ocultar tooltip
+        function hideTooltip() {
+            document.getElementById('tooltip').classList.remove('show');
+        }
+
+        // Función para reiniciar progreso
+        function resetProgress() {
+            if (confirm('¿Estás seguro de que quieres reiniciar todo el progreso?')) {
+                approvedSubjects = [];
+                localStorage.removeItem('approvedSubjects');
+                updateSubjectStatus();
+                updateStats();
+            }
+        }
+
+        // Inicializar la aplicación
+        document.addEventListener('DOMContentLoaded', function() {
+            // Agregar event listeners
+            document.querySelectorAll('.subject').forEach(subject => {
+                subject.addEventListener('click', handleSubjectClick);
+                subject.addEventListener('mouseenter', showTooltip);
+                subject.addEventListener('mouseleave', hideTooltip);
+            });
+            
+            // Actualizar estado inicial
+            updateSubjectStatus();
+            updateStats();
+        });
+    </script>
+</body>
+</html>
