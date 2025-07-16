@@ -4,26 +4,33 @@
   <meta charset="UTF-8" />
   <title>Licenciatura en Turismo - Malla Curricular</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
     body {
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Poppins', sans-serif;
       margin: 0;
       padding: 0;
-      background: #f4f6f8;
+      background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
       color: #333;
     }
     header {
-      background-color: #2b7a78;
+      background: #d46a87; /* rosa fuerte */
       color: white;
       text-align: center;
-      padding: 1em;
-      font-size: 1.8em;
-      font-weight: bold;
+      padding: 1.2em;
+      font-size: 2em;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      box-shadow: 0 4px 10px rgba(212, 106, 135, 0.6);
     }
     .stats {
-      background-color: #def2f1;
-      padding: 1em;
+      background: #a2d5c6; /* turquesa pastel */
+      padding: 1em 2em;
       text-align: center;
       font-size: 1.2em;
+      font-weight: 500;
+      color: #0f3c35;
+      box-shadow: inset 0 0 12px rgba(0,0,0,0.07);
     }
     .container {
       display: flex;
@@ -36,13 +43,26 @@
     }
     .unit {
       width: 100%;
+      background: #d6f0f0; /* celeste pastel */
+      border-radius: 12px;
+      padding: 1em 1.5em 2em 1.5em;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+      border: 2px solid #84c5c2;
+      transition: border-color 0.3s ease;
+    }
+    .unit:hover {
+      border-color: #d46a87;
+      box-shadow: 0 12px 20px rgba(212, 106, 135, 0.3);
     }
     .unit-title {
-      font-size: 1.5em;
-      margin-bottom: 0.5em;
-      border-left: 5px solid #2b7a78;
-      padding-left: 0.5em;
-      color: #17252a;
+      font-size: 1.8em;
+      margin-bottom: 0.8em;
+      color: #d46a87; /* rosa */
+      border-left: 6px solid #84c5c2; /* turquesa */
+      padding-left: 0.8em;
+      font-weight: 600;
+      letter-spacing: 1px;
+      user-select: none;
     }
     .semester-row {
       display: flex;
@@ -51,58 +71,73 @@
       flex-wrap: wrap;
     }
     .semester {
-      background-color: #fff;
-      border: 1px solid #ccc;
-      padding: 1em;
-      min-width: 250px;
-      flex-grow: 1;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      background: #ffffffcc;
+      border-radius: 14px;
+      padding: 1em 1.2em;
+      min-width: 280px;
+      max-width: 280px;
+      min-height: 320px;
+      box-shadow: 0 6px 12px rgba(100, 120, 140, 0.12);
+      display: flex;
+      flex-direction: column;
+      user-select: none;
     }
     .semester h3 {
       text-align: center;
-      color: #3aafa9;
-      margin-bottom: 0.7em;
+      color: #2a8d8d; /* turquesa oscuro */
+      margin-bottom: 0.8em;
+      font-weight: 600;
+      letter-spacing: 1.1px;
+      border-bottom: 2px solid #d46a87;
+      padding-bottom: 0.3em;
     }
     .subject {
-      padding: 0.5em;
+      padding: 0.5em 0.8em;
       margin: 0.3em 0;
-      background-color: #eee;
-      border-radius: 4px;
+      border-radius: 8px;
       cursor: pointer;
-      position: relative;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s, box-shadow 0.3s;
+      color: #333;
+      font-weight: 500;
+      box-shadow: inset 0 0 0 0 transparent;
       user-select: none;
+      position: relative;
     }
-    .subject:hover:not(.locked) {
-      background-color: #dceef2;
+    .subject:hover:not(.locked):not(.approved) {
+      background-color: #d1e8f2;
+      box-shadow: 0 0 8px 2px #a7cde9aa;
     }
     .subject.approved {
-      background-color: #a2d5c6;
+      background: linear-gradient(135deg, #fab1a0, #ff7675);
+      color: white;
+      font-weight: 600;
       text-decoration: line-through;
-      color: #1a3b35;
+      box-shadow: 0 0 10px 2px #ff6b6baa;
+      cursor: pointer;
     }
     .subject.locked {
-      background-color: #f5f5f5;
-      color: #999;
-      cursor: not-allowed;
+      background-color: #e7e9f0;
+      color: #999999;
+      cursor: default;
+      box-shadow: none;
+      font-style: italic;
     }
     .subject.locked::after {
       content: attr(data-tooltip);
       position: absolute;
-      left: 100%;
+      left: 105%;
       top: 50%;
       transform: translateY(-50%);
       white-space: nowrap;
-      background-color: #333;
+      background-color: #222;
       color: white;
-      padding: 0.4em 0.6em;
-      border-radius: 4px;
-      font-size: 0.8em;
+      padding: 0.3em 0.6em;
+      border-radius: 5px;
+      font-size: 0.85em;
       display: none;
-      z-index: 10;
+      z-index: 100;
       pointer-events: none;
-      max-width: 200px;
+      max-width: 220px;
       box-sizing: border-box;
     }
     .subject.locked:hover::after {
@@ -113,18 +148,24 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 2em;
+      margin-top: 1.5em;
     }
     .module {
-      background: #ffffff;
-      padding: 1em;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      width: 300px;
+      background: #ffffffcc;
+      padding: 1.2em 1.5em;
+      border-radius: 14px;
+      box-shadow: 0 6px 12px rgba(100, 120, 140, 0.15);
+      width: 280px;
+      user-select: none;
     }
     .module h3 {
       text-align: center;
-      color: #17252a;
-      margin-bottom: 0.7em;
+      color: #d46a87;
+      margin-bottom: 1em;
+      font-weight: 600;
+      letter-spacing: 1.1px;
+      border-bottom: 2px solid #2a8d8d;
+      padding-bottom: 0.3em;
     }
   </style>
 </head>
@@ -132,8 +173,8 @@
   <header>LICENCIATURA EN TURISMO</header>
 
   <div class="stats">
-    <p>Total de Asignaturas: <span id="total-asignaturas">57</span></p>
-    <p>Total de Módulos: <span id="total-modulos">9</span></p>
+    <p>Total de Asignaturas: <span id="total-asignaturas">0</span></p>
+    <p>Total de Módulos: <span id="total-modulos">0</span></p>
     <p>Créditos Acumulados: <span id="total-creditos">0</span></p>
   </div>
 
@@ -231,30 +272,16 @@
       "Técnicas De Negociación Y Comunicación Para El Turismo": { creditos: 3.3333, prereqs: ["Estrategias Comerciales Turísticas"] },
       "Realidad Nacional Y Geopolítica": { creditos: 1.67, prereqs: ["Turismo Y Gobernanza"] },
       "Trabajo De Titulación": { creditos: 3.33, prereqs: ["Redacción Del Trabajo De Titulación"] },
-      "Contratación Pública": { creditos: 3.33, prereqs: ["Formulación Y Evaluación De Proyectos"] },
-      "Liderazgo": { creditos: 1.6666, prereqs: ["Apreciación Del Arte Y La Cultura"] },
-
-      // Módulos Inglés
-      "-A1": { creditos: 2.08, prereqs: [] },
-      "A1": { creditos: 2.08, prereqs: ["-A1"] },
-      "A2": { creditos: 2.08, prereqs: ["A1"] },
-      "B1": { creditos: 2.08, prereqs: ["A2"] },
-      "B2": { creditos: 2.08, prereqs: ["B1"] },
-      "C1": { creditos: 2.08, prereqs: ["B2"] },
-      "C2": { creditos: 2.08, prereqs: ["C1"] },
-
-      // Módulos Computación
-      "Windows - Word - Internet": { creditos: 8, prereqs: [] },
-      "Excel – Power Point": { creditos: 8, prereqs: ["Windows - Word - Internet"] }
+      "Contratación Pública": { creditos: 3.33, prereqs: ["Realidad Nacional Y Geopolítica"] },
+      "Liderazgo": { creditos: 3.33, prereqs: ["Trabajo De Titulación"] }
     };
 
-    // Estructura para imprimir ordenadamente
     const estructura = [
       {
         nombre: "Unidad Preuniversitaria",
         semestres: [
           {
-            nombre: "PRE",
+            nombre: "Preuniversitario",
             materias: ["Epistemología del Turismo", "Introducción a la Comunicación Académica", "Pensamiento Computacional"]
           }
         ]
@@ -312,159 +339,136 @@
       }
     ];
 
-    const modulos = [
-      {
-        nombre: "Inglés",
-        materias: ["-A1", "A1", "A2", "B1", "B2", "C1", "C2"]
-      },
-      {
-        nombre: "Computación",
-        materias: ["Windows - Word - Internet", "Excel – Power Point"]
-      }
-    ];
+    // Inicialmente aprobadas vacías (puedes cargar datos guardados aquí)
+    let aprobadas = [];
 
-    const storageKey = "mallaTurismoAprobadas";
-
-    // Guardar materias aprobadas
-    function guardarEstado(aprobadas) {
-      localStorage.setItem(storageKey, JSON.stringify(aprobadas));
-    }
-
-    // Cargar materias aprobadas
-    function cargarEstado() {
-      return JSON.parse(localStorage.getItem(storageKey) || "[]");
-    }
-
-    // Verifica si todos los prereqs están aprobados
-    function cumplePrereqs(materia, aprobadas) {
-      const prereqs = materias[materia].prereqs || [];
+    // Función para chequear si todos los prerrequisitos de una materia están aprobados
+    function estaDesbloqueada(nombre) {
+      const prereqs = materias[nombre]?.prereqs || [];
       return prereqs.every(p => aprobadas.includes(p));
     }
 
-    // Actualizar créditos y estado bloqueo/marcado de materias
-    function actualizarUI() {
-      const aprobadas = cargarEstado();
-      let creditosTotales = 0;
-
-      document.querySelectorAll(".subject").forEach(subject => {
-        const nombre = subject.dataset.nombre;
-        const materia = materias[nombre];
-
-        // Sumar créditos si aprobada
-        if (aprobadas.includes(nombre)) {
-          creditosTotales += materia.creditos;
-          subject.classList.add("approved");
-          subject.classList.remove("locked");
-          subject.removeAttribute("data-tooltip");
-          subject.style.cursor = "pointer";
-        } else {
-          subject.classList.remove("approved");
-          // Bloqueada si no cumple prereqs
-          if (!cumplePrereqs(nombre, aprobadas)) {
-            subject.classList.add("locked");
-            const faltantes = materia.prereqs.filter(p => !aprobadas.includes(p));
-            subject.setAttribute("data-tooltip", "Falta aprobar: " + faltantes.join(", "));
-            subject.style.cursor = "not-allowed";
-          } else {
-            subject.classList.remove("locked");
-            subject.removeAttribute("data-tooltip");
-            subject.style.cursor = "pointer";
-          }
-        }
+    // Ordena materias por créditos desc y luego alfabéticamente asc
+    function ordenarMateriasPorCreditosYNombre(materiasLista) {
+      return materiasLista.slice().sort((a, b) => {
+        const creditA = materias[a]?.creditos || 0;
+        const creditB = materias[b]?.creditos || 0;
+        if (creditA !== creditB) return creditB - creditA;
+        return a.localeCompare(b);
       });
-
-      document.getElementById("total-creditos").textContent = creditosTotales.toFixed(2);
     }
 
-    // Renderizado de la malla
+    // Actualiza la UI con el estado actual
+    function actualizarUI() {
+      // Actualizar créditos acumulados
+      let totalCreditos = 0;
+      aprobadas.forEach(m => {
+        totalCreditos += materias[m]?.creditos || 0;
+      });
+      document.getElementById("total-creditos").textContent = totalCreditos.toFixed(2);
+
+      // Actualizar materias visualmente
+      document.querySelectorAll(".subject").forEach(elem => {
+        const nombre = elem.dataset.nombre;
+        if (aprobadas.includes(nombre)) {
+          elem.classList.add("approved");
+          elem.classList.remove("locked");
+          elem.title = "Click para desmarcar como aprobada";
+        } else {
+          elem.title = "";
+          if (estaDesbloqueada(nombre)) {
+            elem.classList.remove("locked");
+          } else {
+            elem.classList.add("locked");
+            const prereqs = materias[nombre]?.prereqs || [];
+            elem.dataset.tooltip = "Prerrequisitos: " + prereqs.join(", ");
+          }
+          elem.classList.remove("approved");
+        }
+      });
+    }
+
+    // Renderiza toda la malla en el contenedor
     function renderizarMalla() {
       const container = document.getElementById("malla-container");
       container.innerHTML = "";
 
-      // Render unidades
       estructura.forEach(unidad => {
-        const unitDiv = document.createElement("div");
-        unitDiv.classList.add("unit");
+        const unidadDiv = document.createElement("div");
+        unidadDiv.className = "unit";
 
-        const title = document.createElement("h2");
-        title.className = "unit-title";
-        title.textContent = unidad.nombre;
-        unitDiv.appendChild(title);
-
-        const semestresDiv = document.createElement("div");
-        semestresDiv.className = "semester-row";
+        const tituloUnidad = document.createElement("div");
+        tituloUnidad.className = "unit-title";
+        tituloUnidad.textContent = unidad.nombre;
+        unidadDiv.appendChild(tituloUnidad);
 
         unidad.semestres.forEach(semestre => {
-          const semDiv = document.createElement("div");
-          semDiv.className = "semester";
+          const semestreDiv = document.createElement("div");
+          semestreDiv.className = "semester-row";
 
-          const semTitle = document.createElement("h3");
-          semTitle.textContent = semestre.nombre;
-          semDiv.appendChild(semTitle);
+          const semestreCol = document.createElement("div");
+          semestreCol.className = "semester";
 
-          semestre.materias.forEach(materiaNombre => {
-            const matDiv = document.createElement("div");
-            matDiv.className = "subject";
-            matDiv.textContent = materiaNombre;
-            matDiv.dataset.nombre = materiaNombre;
-            semDiv.appendChild(matDiv);
+          const tituloSemestre = document.createElement("h3");
+          tituloSemestre.textContent = semestre.nombre;
+          semestreCol.appendChild(tituloSemestre);
+
+          // Ordenar materias por créditos y nombre
+          const materiasOrdenadas = ordenarMateriasPorCreditosYNombre(semestre.materias);
+
+          materiasOrdenadas.forEach(materiaNombre => {
+            const subj = document.createElement("div");
+            subj.className = "subject";
+            subj.dataset.nombre = materiaNombre;
+            subj.textContent = materiaNombre;
+            // prerrequisitos en tooltip si bloqueada se ponen después en actualizarUI
+            semestreCol.appendChild(subj);
           });
 
-          semestresDiv.appendChild(semDiv);
+          semestreDiv.appendChild(semestreCol);
+          unidadDiv.appendChild(semestreDiv);
         });
 
-        unitDiv.appendChild(semestresDiv);
-        container.appendChild(unitDiv);
+        container.appendChild(unidadDiv);
       });
-
-      // Render módulos en sección aparte
-      const modulosSection = document.createElement("div");
-      modulosSection.className = "modules";
-      modulos.forEach(modulo => {
-        const modDiv = document.createElement("div");
-        modDiv.className = "module";
-
-        const modTitle = document.createElement("h3");
-        modTitle.textContent = modulo.nombre;
-        modDiv.appendChild(modTitle);
-
-        modulo.materias.forEach(materiaNombre => {
-          const matDiv = document.createElement("div");
-          matDiv.className = "subject";
-          matDiv.textContent = materiaNombre;
-          matDiv.dataset.nombre = materiaNombre;
-          modDiv.appendChild(matDiv);
-        });
-
-        modulosSection.appendChild(modDiv);
-      });
-      container.appendChild(modulosSection);
     }
 
-    // Agregar eventos de click para marcar/desmarcar aprobadas
+    // Añade eventos click para marcar/desmarcar aprobadas
     function agregarEventos() {
-      document.querySelectorAll(".subject").forEach(subject => {
-        subject.addEventListener("click", () => {
-          if (subject.classList.contains("locked")) return; // no hacer nada si está bloqueada
-
-          const nombre = subject.dataset.nombre;
-          const aprobadas = cargarEstado();
-
+      document.getElementById("malla-container").addEventListener("click", e => {
+        const target = e.target;
+        if (target.classList.contains("subject")) {
+          const nombre = target.dataset.nombre;
           if (aprobadas.includes(nombre)) {
-            // Desmarcar
-            const idx = aprobadas.indexOf(nombre);
-            aprobadas.splice(idx, 1);
+            // desmarcar
+            aprobadas = aprobadas.filter(m => m !== nombre);
+            actualizarUI();
           } else {
-            // Marcar aprobada
-            aprobadas.push(nombre);
+            if (estaDesbloqueada(nombre)) {
+              aprobadas.push(nombre);
+              actualizarUI();
+            }
           }
-          guardarEstado(aprobadas);
-          actualizarUI();
-        });
+        }
       });
     }
 
+    // Actualizar contadores total asignaturas y modulos
+    function actualizarContadores() {
+      let totalAsignaturas = 0;
+      estructura.forEach(u => {
+        u.semestres.forEach(s => {
+          totalAsignaturas += s.materias.length;
+        });
+      });
+      const totalModulos = estructura.length;
+      document.getElementById("total-asignaturas").textContent = totalAsignaturas;
+      document.getElementById("total-modulos").textContent = totalModulos;
+    }
+
+    // Inicializar todo al cargar
     document.addEventListener("DOMContentLoaded", () => {
+      actualizarContadores();
       renderizarMalla();
       actualizarUI();
       agregarEventos();
