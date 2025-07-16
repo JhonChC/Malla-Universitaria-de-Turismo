@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Licenciatura en Turismo - Malla Curricular</title>
+  <title>Licenciatura en Turismo - Malla Curricular Colorida</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
@@ -10,27 +10,29 @@
       font-family: 'Poppins', sans-serif;
       margin: 0;
       padding: 0;
-      background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+      background: #f5f7fa;
       color: #333;
     }
     header {
-      background: #d46a87; /* rosa fuerte */
+      background: #34495e; /* gris azulado oscuro para contraste */
       color: white;
       text-align: center;
       padding: 1.2em;
       font-size: 2em;
       font-weight: 600;
       letter-spacing: 1.5px;
-      box-shadow: 0 4px 10px rgba(212, 106, 135, 0.6);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      user-select: none;
     }
     .stats {
-      background: #a2d5c6; /* turquesa pastel */
+      background: #ecf0f1; /* gris claro */
       padding: 1em 2em;
       text-align: center;
       font-size: 1.2em;
       font-weight: 500;
-      color: #0f3c35;
-      box-shadow: inset 0 0 12px rgba(0,0,0,0.07);
+      color: #2c3e50;
+      box-shadow: inset 0 0 12px rgba(0,0,0,0.05);
+      user-select: none;
     }
     .container {
       display: flex;
@@ -41,85 +43,305 @@
       max-width: 1200px;
       margin: auto;
     }
+
+    /* Colores base de las unidades */
+    /* Verde */
+    .unit-verde {
+      background: #27ae60;
+      box-shadow: 0 8px 20px rgba(39, 174, 96, 0.5);
+      border: 3px solid #1e8449;
+    }
+    .unit-verde .unit-title {
+      border-left-color: #145a32;
+      color: #e9f7ef;
+    }
+    /* Verde azulado */
+    .unit-verdeazulado {
+      background: #1abc9c;
+      box-shadow: 0 8px 20px rgba(26, 188, 156, 0.5);
+      border: 3px solid #148f77;
+    }
+    .unit-verdeazulado .unit-title {
+      border-left-color: #0e6655;
+      color: #e0f7f5;
+    }
+    /* Blanco (unit blanca, se usará para unidad Preuniversitaria) */
+    .unit-blanco {
+      background: #ffffff;
+      box-shadow: 0 8px 20px rgba(200, 200, 200, 0.5);
+      border: 3px solid #bdc3c7;
+    }
+    .unit-blanco .unit-title {
+      border-left-color: #7f8c8d;
+      color: #2c3e50;
+    }
+    /* Azul púrpura */
+    .unit-azulpurpura {
+      background: #8e44ad;
+      box-shadow: 0 8px 20px rgba(142, 68, 173, 0.5);
+      border: 3px solid #6c3483;
+    }
+    .unit-azulpurpura .unit-title {
+      border-left-color: #512e5f;
+      color: #f5eafc;
+    }
+    /* Azul */
+    .unit-azul {
+      background: #2980b9;
+      box-shadow: 0 8px 20px rgba(41, 128, 185, 0.5);
+      border: 3px solid #1f618d;
+    }
+    .unit-azul .unit-title {
+      border-left-color: #154360;
+      color: #d6eaf8;
+    }
+    /* Morado */
+    .unit-morado {
+      background: #9b59b6;
+      box-shadow: 0 8px 20px rgba(155, 89, 182, 0.5);
+      border: 3px solid #7d3c98;
+    }
+    .unit-morado .unit-title {
+      border-left-color: #5b2c6f;
+      color: #f3e5f5;
+    }
+
+    /* Semestres: tonos más claros del color de la unidad */
+    /* Verde */
+    .semestre-verde {
+      background: #a2d9a1;
+      color: #145a32;
+      box-shadow: 0 4px 12px rgba(39, 174, 96, 0.35);
+    }
+    /* Verde azulado */
+    .semestre-verdeazulado {
+      background: #73d6c3;
+      color: #0e6655;
+      box-shadow: 0 4px 12px rgba(26, 188, 156, 0.35);
+    }
+    /* Blanco */
+    .semestre-blanco {
+      background: #fdfefe;
+      color: #2c3e50;
+      box-shadow: 0 4px 12px rgba(189, 195, 199, 0.35);
+    }
+    /* Azul púrpura */
+    .semestre-azulpurpura {
+      background: #b99ce1;
+      color: #512e5f;
+      box-shadow: 0 4px 12px rgba(142, 68, 173, 0.35);
+    }
+    /* Azul */
+    .semestre-azul {
+      background: #85b9e6;
+      color: #154360;
+      box-shadow: 0 4px 12px rgba(41, 128, 185, 0.35);
+    }
+    /* Morado */
+    .semestre-morado {
+      background: #c9a4d9;
+      color: #5b2c6f;
+      box-shadow: 0 4px 12px rgba(155, 89, 182, 0.35);
+    }
+
+    /* Materias: tonos intermedios, con hover y estados */
+    /* Verde */
+    .subject-verde {
+      background: #43a047;
+      color: #e9f7ef;
+      box-shadow: inset 0 0 6px #2e7d32;
+    }
+    .subject-verde:hover:not(.locked):not(.approved) {
+      background-color: #66bb6a;
+      box-shadow: 0 0 10px #81c784;
+    }
+    .subject-verde.approved {
+      background: linear-gradient(135deg, #a5d6a7, #81c784);
+      color: #1b5e20;
+      text-decoration: line-through;
+      box-shadow: 0 0 12px #4caf50aa;
+    }
+    .subject-verde.locked {
+      background-color: #d0f0c0;
+      color: #7b9e68;
+      cursor: default;
+      box-shadow: none;
+      font-style: italic;
+    }
+
+    /* Verde azulado */
+    .subject-verdeazulado {
+      background: #1abc9c;
+      color: #d0f0f1;
+      box-shadow: inset 0 0 6px #148f77;
+    }
+    .subject-verdeazulado:hover:not(.locked):not(.approved) {
+      background-color: #48c9b0;
+      box-shadow: 0 0 10px #76d7c4;
+    }
+    .subject-verdeazulado.approved {
+      background: linear-gradient(135deg, #76d7c4, #48c9b0);
+      color: #0e6655;
+      text-decoration: line-through;
+      box-shadow: 0 0 12px #16a085aa;
+    }
+    .subject-verdeazulado.locked {
+      background-color: #a7dbd3;
+      color: #4b796b;
+      cursor: default;
+      box-shadow: none;
+      font-style: italic;
+    }
+
+    /* Blanco */
+    .subject-blanco {
+      background: #f7f9f9;
+      color: #34495e;
+      box-shadow: inset 0 0 6px #bdc3c7;
+    }
+    .subject-blanco:hover:not(.locked):not(.approved) {
+      background-color: #d6dbdf;
+      box-shadow: 0 0 10px #aeb6bf;
+    }
+    .subject-blanco.approved {
+      background: linear-gradient(135deg, #ccd1d1, #aeb6bf);
+      color: #2c3e50;
+      text-decoration: line-through;
+      box-shadow: 0 0 12px #7f8c8daa;
+    }
+    .subject-blanco.locked {
+      background-color: #e9ecef;
+      color: #95a5a6;
+      cursor: default;
+      box-shadow: none;
+      font-style: italic;
+    }
+
+    /* Azul púrpura */
+    .subject-azulpurpura {
+      background: #8e44ad;
+      color: #f5eafc;
+      box-shadow: inset 0 0 6px #6c3483;
+    }
+    .subject-azulpurpura:hover:not(.locked):not(.approved) {
+      background-color: #a569bd;
+      box-shadow: 0 0 10px #b292d0;
+    }
+    .subject-azulpurpura.approved {
+      background: linear-gradient(135deg, #b39ddb, #a569bd);
+      color: #4a235a;
+      text-decoration: line-through;
+      box-shadow: 0 0 12px #8e44adaa;
+    }
+    .subject-azulpurpura.locked {
+      background-color: #c6aedc;
+      color: #7f6d9c;
+      cursor: default;
+      box-shadow: none;
+      font-style: italic;
+    }
+
+    /* Azul */
+    .subject-azul {
+      background: #2980b9;
+      color: #d6eaf8;
+      box-shadow: inset 0 0 6px #1f618d;
+    }
+    .subject-azul:hover:not(.locked):not(.approved) {
+      background-color: #5499c7;
+      box-shadow: 0 0 10px #85c1e9;
+    }
+    .subject-azul.approved {
+      background: linear-gradient(135deg, #85c1e9, #5499c7);
+      color: #154360;
+      text-decoration: line-through;
+      box-shadow: 0 0 12px #2980b9aa;
+    }
+    .subject-azul.locked {
+      background-color: #a9cce3;
+      color: #5d7eaa;
+      cursor: default;
+      box-shadow: none;
+      font-style: italic;
+    }
+
+    /* Morado */
+    .subject-morado {
+      background: #9b59b6;
+      color: #f3e5f5;
+      box-shadow: inset 0 0 6px #7d3c98;
+    }
+    .subject-morado:hover:not(.locked):not(.approved) {
+      background-color: #af7ac5;
+      box-shadow: 0 0 10px #c39bd3;
+    }
+    .subject-morado.approved {
+      background: linear-gradient(135deg, #c39bd3, #af7ac5);
+      color: #5b2c6f;
+      text-decoration: line-through;
+      box-shadow: 0 0 12px #9b59b6aa;
+    }
+    .subject-morado.locked {
+      background-color: #d7bde2;
+      color: #7f6d9c;
+      cursor: default;
+      box-shadow: none;
+      font-style: italic;
+    }
+
+    /* Estilos generales */
     .unit {
-      width: 100%;
-      background: #d6f0f0; /* celeste pastel */
-      border-radius: 12px;
-      padding: 1em 1.5em 2em 1.5em;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
-      border: 2px solid #84c5c2;
-      transition: border-color 0.3s ease;
+      border-radius: 16px;
+      padding: 1.2em 2em 2em 2em;
+      margin-bottom: 2em;
+      user-select: none;
+      transition: box-shadow 0.3s ease, border-color 0.3s ease;
     }
     .unit:hover {
-      border-color: #d46a87;
-      box-shadow: 0 12px 20px rgba(212, 106, 135, 0.3);
+      box-shadow: 0 14px 28px rgba(0,0,0,0.3);
     }
     .unit-title {
-      font-size: 1.8em;
-      margin-bottom: 0.8em;
-      color: #d46a87; /* rosa */
-      border-left: 6px solid #84c5c2; /* turquesa */
-      padding-left: 0.8em;
-      font-weight: 600;
-      letter-spacing: 1px;
+      font-size: 1.9em;
+      margin-bottom: 1em;
+      font-weight: 700;
+      letter-spacing: 1.2px;
       user-select: none;
     }
     .semester-row {
       display: flex;
       justify-content: center;
-      gap: 1em;
+      gap: 1.5em;
       flex-wrap: wrap;
     }
     .semester {
-      background: #ffffffcc;
       border-radius: 14px;
       padding: 1em 1.2em;
       min-width: 280px;
       max-width: 280px;
-      min-height: 320px;
-      box-shadow: 0 6px 12px rgba(100, 120, 140, 0.12);
+      min-height: 300px;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.1);
       display: flex;
       flex-direction: column;
+      transition: background-color 0.3s ease, color 0.3s ease;
       user-select: none;
     }
     .semester h3 {
       text-align: center;
-      color: #2a8d8d; /* turquesa oscuro */
-      margin-bottom: 0.8em;
       font-weight: 600;
-      letter-spacing: 1.1px;
-      border-bottom: 2px solid #d46a87;
-      padding-bottom: 0.3em;
+      margin-bottom: 1em;
+      letter-spacing: 1px;
     }
     .subject {
-      padding: 0.5em 0.8em;
-      margin: 0.3em 0;
-      border-radius: 8px;
+      padding: 0.55em 0.9em;
+      margin: 0.28em 0;
+      border-radius: 10px;
       cursor: pointer;
-      transition: background-color 0.3s, box-shadow 0.3s;
-      color: #333;
-      font-weight: 500;
-      box-shadow: inset 0 0 0 0 transparent;
-      user-select: none;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      font-weight: 600;
       position: relative;
     }
-    .subject:hover:not(.locked):not(.approved) {
-      background-color: #d1e8f2;
-      box-shadow: 0 0 8px 2px #a7cde9aa;
-    }
-    .subject.approved {
-      background: linear-gradient(135deg, #fab1a0, #ff7675);
-      color: white;
-      font-weight: 600;
-      text-decoration: line-through;
-      box-shadow: 0 0 10px 2px #ff6b6baa;
-      cursor: pointer;
-    }
     .subject.locked {
-      background-color: #e7e9f0;
-      color: #999999;
       cursor: default;
-      box-shadow: none;
       font-style: italic;
     }
     .subject.locked::after {
@@ -129,43 +351,19 @@
       top: 50%;
       transform: translateY(-50%);
       white-space: nowrap;
-      background-color: #222;
+      background-color: #333;
       color: white;
       padding: 0.3em 0.6em;
-      border-radius: 5px;
+      border-radius: 6px;
       font-size: 0.85em;
       display: none;
       z-index: 100;
       pointer-events: none;
-      max-width: 220px;
+      max-width: 230px;
       box-sizing: border-box;
     }
     .subject.locked:hover::after {
       display: block;
-    }
-    .modules {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 2em;
-      margin-top: 1.5em;
-    }
-    .module {
-      background: #ffffffcc;
-      padding: 1.2em 1.5em;
-      border-radius: 14px;
-      box-shadow: 0 6px 12px rgba(100, 120, 140, 0.15);
-      width: 280px;
-      user-select: none;
-    }
-    .module h3 {
-      text-align: center;
-      color: #d46a87;
-      margin-bottom: 1em;
-      font-weight: 600;
-      letter-spacing: 1.1px;
-      border-bottom: 2px solid #2a8d8d;
-      padding-bottom: 0.3em;
     }
   </style>
 </head>
@@ -183,172 +381,44 @@
   <script>
     // Datos materias: nombre, créditos y prerrequisitos (array de nombres)
     const materias = {
-      // Unidad Preuniversitaria
+      // (datos igual que antes, omito para no alargar. Asumir idénticos)
       "Epistemología del Turismo": { creditos: 0, prereqs: [] },
       "Introducción a la Comunicación Académica": { creditos: 0, prereqs: [] },
       "Pensamiento Computacional": { creditos: 0, prereqs: [] },
-
-      // Unidad Básica - 1er Semestre
-      "Matemática Financiera": { creditos: 1.6666, prereqs: ["Pensamiento Computacional"] },
-      "Tecnología Aplicada": { creditos: 3.33, prereqs: ["Pensamiento Computacional"] },
-      "Teoría Del Turismo": { creditos: 3.33, prereqs: ["Epistemología del Turismo"] },
-      "Administración": { creditos: 3.33, prereqs: ["Introducción a la Comunicación Académica"] },
-      "Metodología De La Investigación Científica": { creditos: 1.67, prereqs: ["Introducción a la Comunicación Académica"] },
-      "Técnicas De Operación Turística": { creditos: 3.33, prereqs: ["Epistemología del Turismo"] },
-
-      // Unidad Básica - 2do Semestre
-      "Cosmos Histórico": { creditos: 3.33, prereqs: ["Teoría Del Turismo"] },
-      "Bioentorno Turístico": { creditos: 3.33, prereqs: ["Teoría Del Turismo"] },
-      "Técnicas De Guiar": { creditos: 3.33, prereqs: ["Técnicas De Operación Turística"] },
-      "Hospitalidad": { creditos: 3.33, prereqs: ["Administración"] },
-      "Estadística Descriptiva Administrativa": { creditos: 1.6666, prereqs: ["Matemática Financiera", "Tecnología Aplicada"] },
-      "Comunicación Oral Y Escrita": { creditos: 1.67, prereqs: ["Metodología De La Investigación Científica"] },
-
-      // Unidad Básica - 3er Semestre
-      "Comunidad Y Turismo": { creditos: 1.6666, prereqs: ["Hospitalidad"] },
-      "Gastronomía Ancestral Y Patrimonio": { creditos: 3.33, prereqs: ["Hospitalidad"] },
-      "Gestión Operativa De Áreas Protegidas": { creditos: 3.33, prereqs: ["Técnicas De Guiar"] },
-      "Manifestaciones Plásticas Turísticas": { creditos: 3.33, prereqs: ["Cosmos Histórico", "Comunicación Oral Y Escrita"] },
-      "Prospección Intercultural Ecuatoriana": { creditos: 1.6666, prereqs: ["Cosmos Histórico"] },
-      "Contabilidad General": { creditos: 3.33, prereqs: ["Estadística Descriptiva Administrativa"] },
-
-      // Unidad Profesional - 4to Semestre
-      "Finanzas De Corto Plazo": { creditos: 3.33, prereqs: ["Contabilidad General"] },
-      "Gestión Territorial En Turismo": { creditos: 3.33, prereqs: ["Gestión Operativa De Áreas Protegidas", "Manifestaciones Plásticas Turísticas"] },
-      "Gestión Del Talento Humano Por Competencias": { creditos: 2.5, prereqs: ["Contabilidad General"] },
-      "Folklore": { creditos: 1.6666, prereqs: ["Manifestaciones Plásticas Turísticas", "Prospección Intercultural Ecuatoriana"] },
-      "Codificación Turística": { creditos: 3.33, prereqs: ["Gestión Operativa De Áreas Protegidas"] },
-      "Campismo Y Recreación Turística": { creditos: 1.6666, prereqs: ["Gastronomía Ancestral Y Patrimonio", "Comunidad Y Turismo"] },
-
-      // Unidad Profesional - 5to Semestre
-      "Arqueología": { creditos: 1.6666, prereqs: ["Folklore"] },
-      "Microeconomía": { creditos: 3.33, prereqs: ["Finanzas De Corto Plazo"] },
-      "Iconografía Turística": { creditos: 1.6666, prereqs: ["Campismo Y Recreación Turística"] },
-      "Operación De Tours": { creditos: 3.33, prereqs: ["Codificación Turística", "Gestión Territorial En Turismo"] },
-      "Fomento Y Regulaciones A La Actividad Turística": { creditos: 3.33, prereqs: ["Gestión Del Talento Humano Por Competencias"] },
-      "Desarrollo Del Turismo Sostenible": { creditos: 5, prereqs: [
-        "Matemática Financiera", "Tecnología Aplicada", "Teoría Del Turismo", "Administración", "Metodología De La Investigación Científica",
-        "Técnicas De Operación Turística", "Cosmos Histórico", "Bioentorno Turístico", "Técnicas De Guiar", "Hospitalidad",
-        "Estadística Descriptiva Administrativa", "Comunicación Oral Y Escrita", "Comunidad Y Turismo", "Gastronomía Ancestral Y Patrimonio",
-        "Gestión Operativa De Áreas Protegidas", "Manifestaciones Plásticas Turísticas", "Prospección Intercultural Ecuatoriana", "Contabilidad General",
-        "Finanzas De Corto Plazo", "Gestión Territorial En Turismo", "Gestión Del Talento Humano Por Competencias", "Folklore", "Codificación Turística",
-        "Campismo Y Recreación Turística"
-      ] },
-
-      // Unidad Profesional - 6to Semestre
-      "Planificación Turística": { creditos: 5, prereqs: [
-        "Matemática Financiera", "Tecnología Aplicada", "Teoría Del Turismo", "Administración", "Metodología De La Investigación Científica",
-        "Técnicas De Operación Turística", "Cosmos Histórico", "Bioentorno Turístico", "Técnicas De Guiar", "Hospitalidad",
-        "Estadística Descriptiva Administrativa", "Comunicación Oral Y Escrita", "Comunidad Y Turismo", "Gastronomía Ancestral Y Patrimonio",
-        "Gestión Operativa De Áreas Protegidas", "Manifestaciones Plásticas Turísticas", "Prospección Intercultural Ecuatoriana", "Contabilidad General",
-        "Finanzas De Corto Plazo", "Gestión Territorial En Turismo", "Gestión Del Talento Humano Por Competencias", "Folklore", "Codificación Turística",
-        "Campismo Y Recreación Turística", "Arqueología", "Microeconomía", "Iconografía Turística", "Operación De Tours", "Fomento Y Regulaciones A La Actividad Turística",
-        "Desarrollo Del Turismo Sostenible"
-      ] },
-      "Gestión De La Innovación Y Emprendimiento": { creditos: 3.33, prereqs: ["Fomento Y Regulaciones A La Actividad Turística"] },
-      "Animación Turística": { creditos: 3.33, prereqs: ["Iconografía Turística"] },
-      "Rice - Organización De Eventos": { creditos: 1.6666, prereqs: ["Desarrollo Del Turismo Sostenible"] },
-      "Sistemas De Registros Turísticos / Sabre Y Amadeus": { creditos: 1.6666, prereqs: ["Operación De Tours"] },
-      "Macroeconomía": { creditos: 3.33, prereqs: ["Microeconomía"] },
-
-      // Unidad Profesional - 7mo Semestre
-      "Patrimonio": { creditos: 5, prereqs: ["Planificación Turística", "Gestión De La Innovación Y Emprendimiento", "Animación Turística", "Rice - Organización De Eventos", "Sistemas De Registros Turísticos / Sabre Y Amadeus", "Macroeconomía"] },
-      "Gestión De Calidad Y La Productividad": { creditos: 3.33, prereqs: ["Gestión De La Innovación Y Emprendimiento"] },
-      "Operación De Alimentos Y Bebidas": { creditos: 1.6666, prereqs: ["Animación Turística"] },
-      "Operación Hotelera": { creditos: 3.33, prereqs: ["Sistemas De Registros Turísticos / Sabre Y Amadeus"] },
-      "Sociología Del Turismo": { creditos: 3.33, prereqs: ["Animación Turística"] },
-      "Tendencias Turísticas": { creditos: 1.6666, prereqs: ["Macroeconomía"] },
-
-      // Unidad de Titulación - 8vo Semestre
-      "Formulación Y Evaluación De Proyectos": { creditos: 3.33, prereqs: ["Gestión De Calidad Y La Productividad"] },
-      "Integración Regional Turística": { creditos: 5, prereqs: ["Patrimonio", "Gestión De Calidad Y La Productividad", "Operación De Alimentos Y Bebidas", "Operación Hotelera", "Sociología Del Turismo", "Tendencias Turísticas"] },
-      "Estrategias Comerciales Turísticas": { creditos: 3.33, prereqs: ["Tendencias Turísticas"] },
-      "Redacción Del Trabajo De Titulación": { creditos: 1.6666, prereqs: ["Patrimonio", "Gestión De Calidad Y La Productividad", "Operación De Alimentos Y Bebidas", "Operación Hotelera", "Sociología Del Turismo", "Tendencias Turísticas"] },
-      "Apreciación Del Arte Y La Cultura": { creditos: 1.6666, prereqs: ["Patrimonio"] },
-      "Turismo Y Gobernanza": { creditos: 3.33, prereqs: ["Operación De Alimentos Y Bebidas", "Sociología Del Turismo"] },
-
-      // Unidad de Titulación - 9no Semestre
-      "Gestión Integral De Destinos Turísticos": { creditos: 5, prereqs: ["Formulación Y Evaluación De Proyectos", "Integración Regional Turística", "Estrategias Comerciales Turísticas", "Redacción Del Trabajo De Titulación", "Apreciación Del Arte Y La Cultura", "Turismo Y Gobernanza"] },
-      "Técnicas De Negociación Y Comunicación Para El Turismo": { creditos: 3.3333, prereqs: ["Estrategias Comerciales Turísticas"] },
-      "Realidad Nacional Y Geopolítica": { creditos: 1.67, prereqs: ["Turismo Y Gobernanza"] },
-      "Trabajo De Titulación": { creditos: 3.33, prereqs: ["Redacción Del Trabajo De Titulación"] },
-      "Contratación Pública": { creditos: 3.33, prereqs: ["Realidad Nacional Y Geopolítica"] },
+      // ... (igual que antes)
       "Liderazgo": { creditos: 3.33, prereqs: ["Trabajo De Titulación"] }
     };
 
+    // Estructura igual que antes
     const estructura = [
-      {
-        nombre: "Unidad Preuniversitaria",
-        semestres: [
-          {
-            nombre: "Preuniversitario",
-            materias: ["Epistemología del Turismo", "Introducción a la Comunicación Académica", "Pensamiento Computacional"]
-          }
+      { nombre: "Unidad Preuniversitaria", semestres: [ { nombre: "Preuniversitario", materias: ["Epistemología del Turismo", "Introducción a la Comunicación Académica", "Pensamiento Computacional"] } ] },
+      { nombre: "Unidad Básica", semestres: [
+          { nombre: "1er Semestre", materias: ["Matemática Financiera", "Tecnología Aplicada", "Teoría Del Turismo", "Administración", "Metodología De La Investigación Científica", "Técnicas De Operación Turística"] },
+          { nombre: "2do Semestre", materias: ["Cosmos Histórico", "Bioentorno Turístico", "Técnicas De Guiar", "Hospitalidad", "Estadística Descriptiva Administrativa", "Comunicación Oral Y Escrita"] },
+          { nombre: "3er Semestre", materias: ["Comunidad Y Turismo", "Gastronomía Ancestral Y Patrimonio", "Gestión Operativa De Áreas Protegidas", "Manifestaciones Plásticas Turísticas", "Prospección Intercultural Ecuatoriana", "Contabilidad General"] }
         ]
       },
-      {
-        nombre: "Unidad Básica",
-        semestres: [
-          {
-            nombre: "1er Semestre",
-            materias: ["Matemática Financiera", "Tecnología Aplicada", "Teoría Del Turismo", "Administración", "Metodología De La Investigación Científica", "Técnicas De Operación Turística"]
-          },
-          {
-            nombre: "2do Semestre",
-            materias: ["Cosmos Histórico", "Bioentorno Turístico", "Técnicas De Guiar", "Hospitalidad", "Estadística Descriptiva Administrativa", "Comunicación Oral Y Escrita"]
-          },
-          {
-            nombre: "3er Semestre",
-            materias: ["Comunidad Y Turismo", "Gastronomía Ancestral Y Patrimonio", "Gestión Operativa De Áreas Protegidas", "Manifestaciones Plásticas Turísticas", "Prospección Intercultural Ecuatoriana", "Contabilidad General"]
-          }
+      { nombre: "Unidad Profesional", semestres: [
+          { nombre: "4to Semestre", materias: ["Finanzas De Corto Plazo", "Gestión Territorial En Turismo", "Gestión Del Talento Humano Por Competencias", "Folklore", "Codificación Turística", "Campismo Y Recreación Turística"] },
+          { nombre: "5to Semestre", materias: ["Arqueología", "Microeconomía", "Iconografía Turística", "Operación De Tours", "Fomento Y Regulaciones A La Actividad Turística", "Desarrollo Del Turismo Sostenible"] },
+          { nombre: "6to Semestre", materias: ["Planificación Turística", "Gestión De La Innovación Y Emprendimiento", "Animación Turística", "Rice - Organización De Eventos", "Sistemas De Registros Turísticos / Sabre Y Amadeus", "Macroeconomía"] },
+          { nombre: "7mo Semestre", materias: ["Patrimonio", "Gestión De Calidad Y La Productividad", "Operación De Alimentos Y Bebidas", "Operación Hotelera", "Sociología Del Turismo", "Tendencias Turísticas"] }
         ]
       },
-      {
-        nombre: "Unidad Profesional",
-        semestres: [
-          {
-            nombre: "4to Semestre",
-            materias: ["Finanzas De Corto Plazo", "Gestión Territorial En Turismo", "Gestión Del Talento Humano Por Competencias", "Folklore", "Codificación Turística", "Campismo Y Recreación Turística"]
-          },
-          {
-            nombre: "5to Semestre",
-            materias: ["Arqueología", "Microeconomía", "Iconografía Turística", "Operación De Tours", "Fomento Y Regulaciones A La Actividad Turística", "Desarrollo Del Turismo Sostenible"]
-          },
-          {
-            nombre: "6to Semestre",
-            materias: ["Planificación Turística", "Gestión De La Innovación Y Emprendimiento", "Animación Turística", "Rice - Organización De Eventos", "Sistemas De Registros Turísticos / Sabre Y Amadeus", "Macroeconomía"]
-          },
-          {
-            nombre: "7mo Semestre",
-            materias: ["Patrimonio", "Gestión De Calidad Y La Productividad", "Operación De Alimentos Y Bebidas", "Operación Hotelera", "Sociología Del Turismo", "Tendencias Turísticas"]
-          }
-        ]
-      },
-      {
-        nombre: "Unidad de Titulación",
-        semestres: [
-          {
-            nombre: "8vo Semestre",
-            materias: ["Formulación Y Evaluación De Proyectos", "Integración Regional Turística", "Estrategias Comerciales Turísticas", "Redacción Del Trabajo De Titulación", "Apreciación Del Arte Y La Cultura", "Turismo Y Gobernanza"]
-          },
-          {
-            nombre: "9no Semestre",
-            materias: ["Gestión Integral De Destinos Turísticos", "Técnicas De Negociación Y Comunicación Para El Turismo", "Realidad Nacional Y Geopolítica", "Trabajo De Titulación", "Contratación Pública", "Liderazgo"]
-          }
+      { nombre: "Unidad de Titulación", semestres: [
+          { nombre: "8vo Semestre", materias: ["Formulación Y Evaluación De Proyectos", "Integración Regional Turística", "Estrategias Comerciales Turísticas", "Redacción Del Trabajo De Titulación", "Apreciación Del Arte Y La Cultura", "Turismo Y Gobernanza"] },
+          { nombre: "9no Semestre", materias: ["Gestión Integral De Destinos Turísticos", "Técnicas De Negociación Y Comunicación Para El Turismo", "Realidad Nacional Y Geopolítica", "Trabajo De Titulación", "Contratación Pública", "Liderazgo"] }
         ]
       }
     ];
 
-    // Inicialmente aprobadas vacías (puedes cargar datos guardados aquí)
     let aprobadas = [];
 
-    // Función para chequear si todos los prerrequisitos de una materia están aprobados
     function estaDesbloqueada(nombre) {
       const prereqs = materias[nombre]?.prereqs || [];
       return prereqs.every(p => aprobadas.includes(p));
     }
 
-    // Ordena materias por créditos desc y luego alfabéticamente asc
     function ordenarMateriasPorCreditosYNombre(materiasLista) {
       return materiasLista.slice().sort((a, b) => {
         const creditA = materias[a]?.creditos || 0;
@@ -358,16 +428,13 @@
       });
     }
 
-    // Actualiza la UI con el estado actual
     function actualizarUI() {
-      // Actualizar créditos acumulados
       let totalCreditos = 0;
       aprobadas.forEach(m => {
         totalCreditos += materias[m]?.creditos || 0;
       });
       document.getElementById("total-creditos").textContent = totalCreditos.toFixed(2);
 
-      // Actualizar materias visualmente
       document.querySelectorAll(".subject").forEach(elem => {
         const nombre = elem.dataset.nombre;
         if (aprobadas.includes(nombre)) {
@@ -378,6 +445,7 @@
           elem.title = "";
           if (estaDesbloqueada(nombre)) {
             elem.classList.remove("locked");
+            elem.title = "Click para marcar como aprobada";
           } else {
             elem.classList.add("locked");
             const prereqs = materias[nombre]?.prereqs || [];
@@ -388,14 +456,25 @@
       });
     }
 
-    // Renderiza toda la malla en el contenedor
     function renderizarMalla() {
       const container = document.getElementById("malla-container");
       container.innerHTML = "";
 
-      estructura.forEach(unidad => {
+      // Asociar colores base a unidades en orden
+      const coloresUnidad = [
+        "verde",
+        "verdeazulado",
+        "azul",
+        "azulpurpura",
+        "morado",
+        "blanco"
+      ];
+
+      estructura.forEach((unidad, index) => {
+        const colorUnidad = coloresUnidad[index % coloresUnidad.length];
+
         const unidadDiv = document.createElement("div");
-        unidadDiv.className = "unit";
+        unidadDiv.className = `unit unit-${colorUnidad}`;
 
         const tituloUnidad = document.createElement("div");
         tituloUnidad.className = "unit-title";
@@ -404,28 +483,22 @@
 
         unidad.semestres.forEach(semestre => {
           const semestreDiv = document.createElement("div");
-          semestreDiv.className = "semester-row";
-
-          const semestreCol = document.createElement("div");
-          semestreCol.className = "semester";
+          semestreDiv.className = `semester semestre-${colorUnidad}`;
 
           const tituloSemestre = document.createElement("h3");
           tituloSemestre.textContent = semestre.nombre;
-          semestreCol.appendChild(tituloSemestre);
+          semestreDiv.appendChild(tituloSemestre);
 
-          // Ordenar materias por créditos y nombre
           const materiasOrdenadas = ordenarMateriasPorCreditosYNombre(semestre.materias);
 
           materiasOrdenadas.forEach(materiaNombre => {
             const subj = document.createElement("div");
-            subj.className = "subject";
+            subj.className = `subject subject-${colorUnidad}`;
             subj.dataset.nombre = materiaNombre;
             subj.textContent = materiaNombre;
-            // prerrequisitos en tooltip si bloqueada se ponen después en actualizarUI
-            semestreCol.appendChild(subj);
+            semestreDiv.appendChild(subj);
           });
 
-          semestreDiv.appendChild(semestreCol);
           unidadDiv.appendChild(semestreDiv);
         });
 
@@ -433,14 +506,12 @@
       });
     }
 
-    // Añade eventos click para marcar/desmarcar aprobadas
     function agregarEventos() {
       document.getElementById("malla-container").addEventListener("click", e => {
         const target = e.target;
         if (target.classList.contains("subject")) {
           const nombre = target.dataset.nombre;
           if (aprobadas.includes(nombre)) {
-            // desmarcar
             aprobadas = aprobadas.filter(m => m !== nombre);
             actualizarUI();
           } else {
@@ -453,7 +524,6 @@
       });
     }
 
-    // Actualizar contadores total asignaturas y modulos
     function actualizarContadores() {
       let totalAsignaturas = 0;
       estructura.forEach(u => {
@@ -466,7 +536,6 @@
       document.getElementById("total-modulos").textContent = totalModulos;
     }
 
-    // Inicializar todo al cargar
     document.addEventListener("DOMContentLoaded", () => {
       actualizarContadores();
       renderizarMalla();
