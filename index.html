@@ -46,6 +46,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
+    position: relative;
   }
   .materia {
     cursor: pointer;
@@ -58,6 +59,7 @@
     max-width: 220px;
     box-sizing: border-box;
     transition: background-color 0.3s, border-color 0.3s;
+    position: relative;
   }
   /* Colores base por unidad */
   .unidad-preuniversitaria .materia {
@@ -81,7 +83,7 @@
     color: #03045e;
   }
   .unidad-modulos .materia {
-    background-color: #e0bbE4; /* morado suave */
+    background-color: #e0bbe4; /* morado suave */
     border-color: #6a4c93; /* morado */
     color: #4a235a;
   }
@@ -109,10 +111,9 @@
     font-size: 0.75rem;
     margin-top: 25px;
     white-space: nowrap;
-  }
-  /* Contenedor para mantener posiciones relativas para tooltips */
-  .materias-lista {
-    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
   }
 </style>
 </head>
@@ -123,7 +124,6 @@
 <div id="malla"></div>
 
 <script>
-  // Datos materias
   const materias = [
     // Unidad Preuniversitaria (Pre)
     { nombre: "Epistemología del Turismo", unidad: "preuniversitaria", nivel: "PRE", creditos: 0, prerrequisitos: [] },
@@ -179,10 +179,56 @@
       "Codificación Turística", "Campismo Y Recreación Turística"
     ] },
 
-    // ... Puedes seguir agregando más materias aquí según el listado que diste ...
+    // Unidad Profesional - 6to Semestre
+    { nombre: "Planificación Turística", unidad: "profesional", nivel: "6to Semestre", creditos: 5, prerrequisitos: [
+      "Matemática Financiera", "Tecnología Aplicada", "Teoría Del Turismo", "Administración",
+      "Metodología De La Investigación Científica", "Técnicas De Operación Turística", "Cosmos Histórico",
+      "Bioentorno Turístico", "Técnicas De Guiar", "Hospitalidad", "Estadística Descriptiva Administrativa",
+      "Comunicación Oral Y Escrita", "Comunidad Y Turismo", "Gastronomía Ancestral Y Patrimonio",
+      "Gestión Operativa De Áreas Protegidas", "Manifestaciones Plásticas Turísticas",
+      "Prospección Intercultural Ecuatoriana", "Contabilidad General", "Finanzas De Corto Plazo",
+      "Gestión Territorial En Turismo", "Gestión Del Talento Humano Por Competencias", "Folklore",
+      "Codificación Turística", "Campismo Y Recreación Turística", "Arqueología", "Microeconomía",
+      "Iconografía Turística", "Operación De Tours", "Fomento Y Regulaciones A La Actividad Turística",
+      "Desarrollo Del Turismo Sostenible"
+    ] },
+    { nombre: "Gestión De La Innovación Y Emprendimiento", unidad: "profesional", nivel: "6to Semestre", creditos: 3.33, prerrequisitos: ["Fomento Y Regulaciones A La Actividad Turística"] },
+    { nombre: "Animación Turística", unidad: "profesional", nivel: "6to Semestre", creditos: 3.33, prerrequisitos: ["Iconografía Turística"] },
+    { nombre: "Rice - Organización De Eventos", unidad: "profesional", nivel: "6to Semestre", creditos: 1.6666, prerrequisitos: ["Desarrollo Del Turismo Sostenible"] },
+    { nombre: "Sistemas De Registros Turísticos / Sabre Y Amadeus", unidad: "profesional", nivel: "6to Semestre", creditos: 1.6666, prerrequisitos: ["Operación De Tours"] },
+    { nombre: "Macroeconomía", unidad: "profesional", nivel: "6to Semestre", creditos: 3.33, prerrequisitos: ["Microeconomía"] },
+
+    // Unidad Profesional - 7mo Semestre
+    { nombre: "Patrimonio", unidad: "profesional", nivel: "7mo Semestre", creditos: 5, prerrequisitos: ["Planificación Turística", "Gestión De La Innovación Y Emprendimiento", "Animación Turística", "Rice - Organización De Eventos", "Sistemas De Registros Turísticos / Sabre Y Amadeus", "Macroeconomía"] },
+    { nombre: "Gestión De Calidad Y La Productividad", unidad: "profesional", nivel: "7mo Semestre", creditos: 3.33, prerrequisitos: ["Gestión De La Innovación Y Emprendimiento"] },
+    { nombre: "Operación De Alimentos Y Bebidas", unidad: "profesional", nivel: "7mo Semestre", creditos: 1.6666, prerrequisitos: ["Animación Turística"] },
+    { nombre: "Operación Hotelera", unidad: "profesional", nivel: "7mo Semestre", creditos: 3.33, prerrequisitos: ["Sistemas De Registros Turísticos / Sabre Y Amadeus"] },
+    { nombre: "Sociología Del Turismo", unidad: "profesional", nivel: "7mo Semestre", creditos: 3.33, prerrequisitos: ["Animación Turística"] },
+    { nombre: "Tendencias Turísticas", unidad: "profesional", nivel: "7mo Semestre", creditos: 1.6666, prerrequisitos: ["Macroeconomía"] },
+
+    // Unidad de Titulación - 8vo Semestre
+    { nombre: "Formulación Y Evaluación De Proyectos", unidad: "titulacion", nivel: "8vo Semestre", creditos: 3.33, prerrequisitos: ["Gestión De Calidad Y La Productividad"] },
+    { nombre: "Integración Regional Turística", unidad: "titulacion", nivel: "8vo Semestre", creditos: 5, prerrequisitos: ["Patrimonio", "Gestión De Calidad Y La Productividad", "Operación De Alimentos Y Bebidas", "Operación Hotelera", "Sociología Del Turismo", "Tendencias Turísticas"] },
+    { nombre: "Estrategias Comerciales Turísticas", unidad: "titulacion", nivel: "8vo Semestre", creditos: 3.33, prerrequisitos: ["Tendencias Turísticas"] },
+    { nombre: "Redacción Del Trabajo De Titulación", unidad: "titulacion", nivel: "8vo Semestre", creditos: 1.6666, prerrequisitos: ["Patrimonio", "Gestión De Calidad Y La Productividad", "Operación De Alimentos Y Bebidas", "Operación Hotelera", "Sociología Del Turismo", "Tendencias Turísticas"] },
+    { nombre: "Apreciación Del Arte Y La Cultura", unidad: "titulacion", nivel: "8vo Semestre", creditos: 1.6666, prerrequisitos: ["Patrimonio"] },
+
+    // Unidad de Titulación - 9no Semestre
+    { nombre: "Trabajo De Titulación", unidad: "titulacion", nivel: "9no Semestre", creditos: 10, prerrequisitos: ["Formulación Y Evaluación De Proyectos", "Integración Regional Turística", "Estrategias Comerciales Turísticas", "Redacción Del Trabajo De Titulación", "Apreciación Del Arte Y La Cultura"] },
+
+    // Unidad de Módulos - Inglés
+    { nombre: "Inglés 1", unidad: "modulos", nivel: "Módulo Inglés", creditos: 1.5, prerrequisitos: [] },
+    { nombre: "Inglés 2", unidad: "modulos", nivel: "Módulo Inglés", creditos: 1.5, prerrequisitos: ["Inglés 1"] },
+    { nombre: "Inglés 3", unidad: "modulos", nivel: "Módulo Inglés", creditos: 1.5, prerrequisitos: ["Inglés 2"] },
+    { nombre: "Inglés 4", unidad: "modulos", nivel: "Módulo Inglés", creditos: 1.5, prerrequisitos: ["Inglés 3"] },
+
+    // Unidad de Módulos - Computación
+    { nombre: "Computación 1", unidad: "modulos", nivel: "Módulo Computación", creditos: 1.5, prerrequisitos: [] },
+    { nombre: "Computación 2", unidad: "modulos", nivel: "Módulo Computación", creditos: 1.5, prerrequisitos: ["Computación 1"] },
+    { nombre: "Computación 3", unidad: "modulos", nivel: "Módulo Computación", creditos: 1.5, prerrequisitos: ["Computación 2"] },
   ];
 
-  // Llaves para unidades y niveles, para organizar visualmente
+  // Unidades y niveles para organización y orden
   const unidadesNiveles = {
     preuniversitaria: { nombre: "UNIDAD PREUNIVERSITARIA", niveles: ["PRE"] },
     basica: {
@@ -191,12 +237,18 @@
     },
     profesional: {
       nombre: "UNIDAD PROFESIONAL",
-      niveles: ["4to Semestre", "5to Semestre"],
+      niveles: ["4to Semestre", "5to Semestre", "6to Semestre", "7mo Semestre"],
     },
-    // Agrega titulación y módulos si quieres...
+    titulacion: {
+      nombre: "UNIDAD DE TITULACIÓN",
+      niveles: ["8vo Semestre", "9no Semestre"],
+    },
+    modulos: {
+      nombre: "MÓDULOS",
+      niveles: ["Módulo Inglés", "Módulo Computación"],
+    },
   };
 
-  // Guardar y cargar materias aprobadas en localStorage
   const STORAGE_KEY = "mallaAprobadasTurismo";
 
   function guardarEstado(aprobadas) {
@@ -206,38 +258,30 @@
     return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
   }
 
-  // Verifica si se cumplen prerrequisitos para una materia
   function puedeAprobar(materia, aprobadas) {
     return materia.prerrequisitos.every(pr => aprobadas.includes(pr));
   }
 
-  // Crear HTML de la malla
   function crearMalla() {
     const container = document.getElementById("malla");
     container.innerHTML = "";
 
-    // Recorrer unidades
     for (const [unidadKey, unidadData] of Object.entries(unidadesNiveles)) {
-      // Crear contenedor unidad
       const unidadDiv = document.createElement("section");
       unidadDiv.classList.add("unidad", `unidad-${unidadKey}`);
 
-      // Título unidad
       const unidadTitulo = document.createElement("h2");
       unidadTitulo.textContent = unidadData.nombre;
       unidadDiv.appendChild(unidadTitulo);
 
-      // Recorrer niveles
       unidadData.niveles.forEach(nivel => {
         const nivelDiv = document.createElement("div");
         nivelDiv.classList.add("nivel");
 
-        // Título nivel
         const nivelTitulo = document.createElement("h3");
         nivelTitulo.textContent = nivel;
         nivelDiv.appendChild(nivelTitulo);
 
-        // Filtrar materias por unidad y nivel
         const materiasNivel = materias
           .filter(m => m.unidad === unidadKey && m.nivel === nivel)
           .sort((a, b) => {
@@ -245,11 +289,9 @@
             return a.nombre.localeCompare(b.nombre);
           });
 
-        // Lista de materias
         const lista = document.createElement("div");
         lista.classList.add("materias-lista");
 
-        // Estado actual de aprobadas
         const aprobadas = cargarEstado();
 
         materiasNivel.forEach(m => {
@@ -257,14 +299,11 @@
           divMateria.classList.add("materia");
           divMateria.textContent = m.nombre;
           divMateria.setAttribute("data-creditos", m.creditos.toFixed(2));
-          // Se puede aprobar?
           if (aprobadas.includes(m.nombre)) {
             divMateria.classList.add("approved");
           } else if (!puedeAprobar(m, aprobadas)) {
             divMateria.classList.add("locked");
           }
-
-          // Click para toggle aprobado si no bloqueado
           divMateria.addEventListener("click", () => {
             const estado = cargarEstado();
             if (divMateria.classList.contains("locked")) return;
@@ -275,9 +314,8 @@
               estado.push(m.nombre);
             }
             guardarEstado(estado);
-            crearMalla(); // recargar UI
+            crearMalla();
           });
-
           lista.appendChild(divMateria);
         });
 
@@ -289,7 +327,6 @@
     }
   }
 
-  // Inicializar
   window.addEventListener("DOMContentLoaded", () => {
     crearMalla();
   });
