@@ -3,333 +3,634 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Malla Curricular Licenciatura en Turismo</title>
+<title>Malla Curricular Interactiva - Licenciatura en Turismo</title>
 <style>
+  /* Reset y básicos */
+  * {
+    box-sizing: border-box;
+  }
   body {
-    font-family: Arial, sans-serif;
-    background: #f7f9fc;
-    margin: 0; padding: 0 10px 30px 10px;
-    color: #222;
+    margin: 0; padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f9fafb;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+  }
+  h1 {
+    color: #4b4b4b;
+    margin-bottom: 8px;
+    font-weight: 700;
+    font-size: 2rem;
+    text-align: center;
   }
   header {
-    text-align: center;
-    padding: 20px 0;
-    font-size: 2rem;
-    font-weight: bold;
-    color: #4B0082; /* morado */
-    text-transform: uppercase;
-  }
-  .unidad {
-    margin-bottom: 40px;
-  }
-  .unidad > h2 {
-    background: #4B0082;
-    color: white;
-    padding: 10px;
-    margin: 0 0 10px 0;
-    text-transform: uppercase;
-    border-radius: 5px;
-  }
-  .nivel {
-    margin-left: 15px;
     margin-bottom: 25px;
+    text-align: center;
   }
-  .nivel > h3 {
-    background: #3A5998; /* azul */
-    color: white;
-    padding: 8px 12px;
-    margin: 0 0 10px 0;
-    border-radius: 4px;
+  .stats {
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+    color: #555;
     font-weight: 600;
   }
-  .materias-lista {
+  /* Contenedor general horizontal */
+  .unidad {
+    margin-bottom: 40px;
+    width: 100%;
+    max-width: 1200px;
+  }
+  .unidad > h2 {
+    margin-bottom: 10px;
+    font-weight: 700;
+    font-size: 1.5rem;
+    border-bottom: 3px solid #ccc;
+    padding-bottom: 5px;
+    color: #222;
+  }
+  /* Contenedor semestres */
+  .semestres {
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    position: relative;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 10px;
   }
+  /* Tarjeta semestre */
+  .semestre {
+    background: #fff;
+    border-radius: 12px;
+    padding: 15px 12px 25px;
+    flex: 1 1 150px;
+    min-width: 150px;
+    box-shadow: 0 3px 8px rgb(0 0 0 / 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .semestre > h3 {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    font-weight: 600;
+    color: #444;
+    border-bottom: 2px solid #ddd;
+    width: 100%;
+    text-align: center;
+  }
+  /* Tarjeta materia */
   .materia {
+    width: 100%;
+    margin: 6px 0;
+    padding: 10px 10px 8px;
+    border-radius: 8px;
     cursor: pointer;
-    padding: 7px 12px;
-    border-radius: 5px;
-    font-size: 0.9rem;
     user-select: none;
-    border: 2px solid transparent;
-    min-width: 180px;
-    max-width: 220px;
-    box-sizing: border-box;
-    transition: background-color 0.3s, border-color 0.3s;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #222;
+    box-shadow: 0 1px 4px rgb(0 0 0 / 0.1);
     position: relative;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
-  /* Colores base por unidad */
-  .unidad-preuniversitaria .materia {
-    background-color: #b7e4c7; /* verde suave */
-    border-color: #40916c; /* verde */
-    color: #1b4332;
-  }
-  .unidad-basica .materia {
-    background-color: #ade8f4; /* celeste suave */
-    border-color: #0077b6; /* celeste */
-    color: #023e8a;
-  }
-  .unidad-profesional .materia {
-    background-color: #d0bfff; /* púrpura suave */
-    border-color: #6930c3; /* púrpura */
-    color: #240046;
-  }
-  .unidad-titulacion .materia {
-    background-color: #caf0f8; /* azul muy suave */
-    border-color: #0077b6; /* azul */
-    color: #03045e;
-  }
-  .unidad-modulos .materia {
-    background-color: #e0bbe4; /* morado suave */
-    border-color: #6a4c93; /* morado */
-    color: #4a235a;
+  .materia:hover:not(.bloqueada) {
+    filter: brightness(0.9);
   }
   /* Estados */
-  .materia.locked {
-    background-color: #f0f0f0 !important;
-    color: #aaa !important;
-    border-color: #ddd !important;
-    cursor: not-allowed;
-    text-decoration: line-through;
-  }
-  .materia.approved {
-    border-color: #008000;
-    background-color: #007f00;
+  .materia.aprobada {
     color: white !important;
+    font-weight: 700;
   }
-  /* Tooltip */
-  .materia[data-creditos]:hover::after {
-    content: attr(data-creditos) " créditos";
+  .materia.bloqueada {
+    cursor: not-allowed;
+    color: #777 !important;
+    opacity: 0.65;
+  }
+  /* Tooltip para bloqueadas */
+  .materia.bloqueada:hover::after {
+    content: attr(data-tooltip);
     position: absolute;
-    background: #333;
-    color: white;
-    padding: 3px 7px;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    margin-top: 25px;
-    white-space: nowrap;
+    bottom: 130%;
     left: 50%;
     transform: translateX(-50%);
+    background: #333;
+    color: #eee;
+    padding: 6px 10px;
+    border-radius: 6px;
+    white-space: pre-line;
+    font-size: 0.75rem;
+    width: max-content;
+    max-width: 220px;
+    text-align: center;
+    pointer-events: none;
     z-index: 10;
+    opacity: 0.95;
+  }
+  /* Scroll horizontal en semestres */
+  .semestres::-webkit-scrollbar {
+    height: 8px;
+  }
+  .semestres::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 10px;
+  }
+  .semestres::-webkit-scrollbar-thumb {
+    background: #a1a1a1;
+    border-radius: 10px;
+  }
+  /* Colores base por unidad (con tonos para materias) */
+  /* Verde - Unidad Preuniversitaria */
+  .unidad-pre .materia {
+    background-color: #a8d5a3;
+  }
+  .unidad-pre .materia.aprobada {
+    background-color: #4a8a33;
+  }
+  .unidad-pre .materia.bloqueada {
+    background-color: #d6e9d3;
+  }
+
+  /* Verde azulado - Unidad Básica */
+  .unidad-basica .semestre {
+    border-top: 4px solid #3a9ca8;
+  }
+  .unidad-basica .materia {
+    background-color: #a2d8db;
+  }
+  .unidad-basica .materia.aprobada {
+    background-color: #1f6572;
+    color: #fff;
+  }
+  .unidad-basica .materia.bloqueada {
+    background-color: #d7eaea;
+  }
+
+  /* Azul púrpura - Unidad Profesional (semestres 4 y 5 arriba) */
+  .unidad-profesional-top {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  .unidad-profesional-top .semestre {
+    border-top: 4px solid #6a5d9a;
+  }
+  .unidad-profesional-top .materia {
+    background-color: #b5a9d9;
+  }
+  .unidad-profesional-top .materia.aprobada {
+    background-color: #3f3270;
+    color: #fff;
+  }
+  .unidad-profesional-top .materia.bloqueada {
+    background-color: #dad7e9;
+  }
+  /* Unidad Profesional (semestres 6 y 7 abajo) */
+  .unidad-profesional-bottom {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+  .unidad-profesional-bottom .semestre {
+    border-top: 4px solid #544d80;
+  }
+  .unidad-profesional-bottom .materia {
+    background-color: #c4bee1;
+  }
+  .unidad-profesional-bottom .materia.aprobada {
+    background-color: #453c73;
+    color: #fff;
+  }
+  .unidad-profesional-bottom .materia.bloqueada {
+    background-color: #e6e4f0;
+  }
+
+  /* Unidad de Titulación - azul y morado */
+  .unidad-titulacion {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+  .unidad-titulacion .semestre:nth-child(1) {
+    border-top: 4px solid #2b4c7e; /* azul */
+  }
+  .unidad-titulacion .semestre:nth-child(2) {
+    border-top: 4px solid #5d3a73; /* morado */
+  }
+  .unidad-titulacion .semestre:nth-child(1) .materia {
+    background-color: #7ba5d1;
+  }
+  .unidad-titulacion .semestre:nth-child(1) .materia.aprobada {
+    background-color: #1e3a67;
+    color: #fff;
+  }
+  .unidad-titulacion .semestre:nth-child(1) .materia.bloqueada {
+    background-color: #d4deea;
+  }
+  .unidad-titulacion .semestre:nth-child(2) .materia {
+    background-color: #9f7ca9;
+  }
+  .unidad-titulacion .semestre:nth-child(2) .materia.aprobada {
+    background-color: #5b3a6a;
+    color: #fff;
+  }
+  .unidad-titulacion .semestre:nth-child(2) .materia.bloqueada {
+    background-color: #dbd1e1;
+  }
+
+  /* Responsive para dispositivos pequeños */
+  @media (max-width: 900px) {
+    .semestres,
+    .unidad-profesional-top,
+    .unidad-profesional-bottom,
+    .unidad-titulacion {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .semestre {
+      min-width: 140px;
+      flex: 1 1 140px;
+      margin-bottom: 12px;
+    }
   }
 </style>
 </head>
 <body>
 
-<header>Licenciatura en Turismo - Malla Curricular</header>
+<header>
+  <h1>Licenciatura en Turismo</h1>
+  <div class="stats">
+    Total de asignaturas: <span id="totalMaterias">0</span> |
+    Aprobadas: <span id="aprobadasCount">0</span> |
+    Créditos aprobados: <span id="creditosAprobados">0</span>
+  </div>
+</header>
 
-<div id="malla"></div>
+<div id="mallaCurricular">
+  <!-- Aquí se inyecta la malla curricular con JS -->
+</div>
 
 <script>
-  const materias = [
-    // Unidad Preuniversitaria (Pre)
-    { nombre: "Epistemología del Turismo", unidad: "preuniversitaria", nivel: "PRE", creditos: 0, prerrequisitos: [] },
-    { nombre: "Introducción a la Comunicación Académica", unidad: "preuniversitaria", nivel: "PRE", creditos: 0, prerrequisitos: [] },
-    { nombre: "Pensamiento Computacional", unidad: "preuniversitaria", nivel: "PRE", creditos: 0, prerrequisitos: [] },
-
-    // Unidad Básica - 1er Semestre
-    { nombre: "Matemática Financiera", unidad: "basica", nivel: "1er Semestre", creditos: 1.6666, prerrequisitos: ["Pensamiento Computacional"] },
-    { nombre: "Tecnología Aplicada", unidad: "basica", nivel: "1er Semestre", creditos: 3.33, prerrequisitos: ["Pensamiento Computacional"] },
-    { nombre: "Teoría Del Turismo", unidad: "basica", nivel: "1er Semestre", creditos: 3.33, prerrequisitos: ["Epistemología del Turismo"] },
-    { nombre: "Administración", unidad: "basica", nivel: "1er Semestre", creditos: 3.33, prerrequisitos: ["Introducción a la Comunicación Académica"] },
-    { nombre: "Metodología De La Investigación Científica", unidad: "basica", nivel: "1er Semestre", creditos: 1.67, prerrequisitos: ["Introducción a la Comunicación Académica"] },
-    { nombre: "Técnicas De Operación Turística", unidad: "basica", nivel: "1er Semestre", creditos: 3.33, prerrequisitos: ["Epistemología del Turismo"] },
-
-    // Unidad Básica - 2do Semestre
-    { nombre: "Cosmos Histórico", unidad: "basica", nivel: "2do Semestre", creditos: 3.33, prerrequisitos: ["Teoría Del Turismo"] },
-    { nombre: "Bioentorno Turístico", unidad: "basica", nivel: "2do Semestre", creditos: 3.33, prerrequisitos: ["Teoría Del Turismo"] },
-    { nombre: "Técnicas De Guiar", unidad: "basica", nivel: "2do Semestre", creditos: 3.33, prerrequisitos: ["Técnicas De Operación Turística"] },
-    { nombre: "Hospitalidad", unidad: "basica", nivel: "2do Semestre", creditos: 3.33, prerrequisitos: ["Administración"] },
-    { nombre: "Estadística Descriptiva Administrativa", unidad: "basica", nivel: "2do Semestre", creditos: 1.6666, prerrequisitos: ["Matemática Financiera", "Tecnología Aplicada"] },
-    { nombre: "Comunicación Oral Y Escrita", unidad: "basica", nivel: "2do Semestre", creditos: 1.67, prerrequisitos: ["Metodología De La Investigación Científica"] },
-
-    // Unidad Básica - 3er Semestre
-    { nombre: "Comunidad Y Turismo", unidad: "basica", nivel: "3er Semestre", creditos: 1.6666, prerrequisitos: ["Hospitalidad"] },
-    { nombre: "Gastronomía Ancestral Y Patrimonio", unidad: "basica", nivel: "3er Semestre", creditos: 3.33, prerrequisitos: ["Hospitalidad"] },
-    { nombre: "Gestión Operativa De Áreas Protegidas", unidad: "basica", nivel: "3er Semestre", creditos: 3.33, prerrequisitos: ["Técnicas De Guiar"] },
-    { nombre: "Manifestaciones Plásticas Turísticas", unidad: "basica", nivel: "3er Semestre", creditos: 3.33, prerrequisitos: ["Cosmos Histórico", "Comunicación Oral Y Escrita"] },
-    { nombre: "Prospección Intercultural Ecuatoriana", unidad: "basica", nivel: "3er Semestre", creditos: 1.6666, prerrequisitos: ["Cosmos Histórico"] },
-    { nombre: "Contabilidad General", unidad: "basica", nivel: "3er Semestre", creditos: 3.33, prerrequisitos: ["Estadística Descriptiva Administrativa"] },
-
-    // Unidad Profesional - 4to Semestre
-    { nombre: "Finanzas De Corto Plazo", unidad: "profesional", nivel: "4to Semestre", creditos: 3.33, prerrequisitos: ["Contabilidad General"] },
-    { nombre: "Gestión Territorial En Turismo", unidad: "profesional", nivel: "4to Semestre", creditos: 3.33, prerrequisitos: ["Gestión Operativa De Áreas Protegidas", "Manifestaciones Plásticas Turísticas"] },
-    { nombre: "Gestión Del Talento Humano Por Competencias", unidad: "profesional", nivel: "4to Semestre", creditos: 2.5, prerrequisitos: ["Contabilidad General"] },
-    { nombre: "Folklore", unidad: "profesional", nivel: "4to Semestre", creditos: 1.6666, prerrequisitos: ["Manifestaciones Plásticas Turísticas", "Prospección Intercultural Ecuatoriana"] },
-    { nombre: "Codificación Turística", unidad: "profesional", nivel: "4to Semestre", creditos: 3.33, prerrequisitos: ["Gestión Operativa De Áreas Protegidas"] },
-    { nombre: "Campismo Y Recreación Turística", unidad: "profesional", nivel: "4to Semestre", creditos: 1.6666, prerrequisitos: ["Gastronomía Ancestral Y Patrimonio", "Comunidad Y Turismo"] },
-
-    // Unidad Profesional - 5to Semestre
-    { nombre: "Arqueología", unidad: "profesional", nivel: "5to Semestre", creditos: 1.6666, prerrequisitos: ["Folklore"] },
-    { nombre: "Microeconomía", unidad: "profesional", nivel: "5to Semestre", creditos: 3.33, prerrequisitos: ["Finanzas De Corto Plazo"] },
-    { nombre: "Iconografía Turística", unidad: "profesional", nivel: "5to Semestre", creditos: 1.6666, prerrequisitos: ["Campismo Y Recreación Turística"] },
-    { nombre: "Operación De Tours", unidad: "profesional", nivel: "5to Semestre", creditos: 3.33, prerrequisitos: ["Codificación Turística", "Gestión Territorial En Turismo"] },
-    { nombre: "Fomento Y Regulaciones A La Actividad Turística", unidad: "profesional", nivel: "5to Semestre", creditos: 3.33, prerrequisitos: ["Gestión Del Talento Humano Por Competencias"] },
-    { nombre: "Desarrollo Del Turismo Sostenible", unidad: "profesional", nivel: "5to Semestre", creditos: 5, prerrequisitos: [
-      "Matemática Financiera", "Tecnología Aplicada", "Teoría Del Turismo", "Administración",
-      "Metodología De La Investigación Científica", "Técnicas De Operación Turística", "Cosmos Histórico",
-      "Bioentorno Turístico", "Técnicas De Guiar", "Hospitalidad", "Estadística Descriptiva Administrativa",
-      "Comunicación Oral Y Escrita", "Comunidad Y Turismo", "Gastronomía Ancestral Y Patrimonio",
-      "Gestión Operativa De Áreas Protegidas", "Manifestaciones Plásticas Turísticas",
-      "Prospección Intercultural Ecuatoriana", "Contabilidad General", "Finanzas De Corto Plazo",
-      "Gestión Territorial En Turismo", "Gestión Del Talento Humano Por Competencias", "Folklore",
-      "Codificación Turística", "Campismo Y Recreación Turística"
-    ] },
-
-    // Unidad Profesional - 6to Semestre
-    { nombre: "Planificación Turística", unidad: "profesional", nivel: "6to Semestre", creditos: 5, prerrequisitos: [
-      "Matemática Financiera", "Tecnología Aplicada", "Teoría Del Turismo", "Administración",
-      "Metodología De La Investigación Científica", "Técnicas De Operación Turística", "Cosmos Histórico",
-      "Bioentorno Turístico", "Técnicas De Guiar", "Hospitalidad", "Estadística Descriptiva Administrativa",
-      "Comunicación Oral Y Escrita", "Comunidad Y Turismo", "Gastronomía Ancestral Y Patrimonio",
-      "Gestión Operativa De Áreas Protegidas", "Manifestaciones Plásticas Turísticas",
-      "Prospección Intercultural Ecuatoriana", "Contabilidad General", "Finanzas De Corto Plazo",
-      "Gestión Territorial En Turismo", "Gestión Del Talento Humano Por Competencias", "Folklore",
-      "Codificación Turística", "Campismo Y Recreación Turística", "Arqueología", "Microeconomía",
-      "Iconografía Turística", "Operación De Tours", "Fomento Y Regulaciones A La Actividad Turística",
-      "Desarrollo Del Turismo Sostenible"
-    ] },
-    { nombre: "Gestión De La Innovación Y Emprendimiento", unidad: "profesional", nivel: "6to Semestre", creditos: 3.33, prerrequisitos: ["Fomento Y Regulaciones A La Actividad Turística"] },
-    { nombre: "Animación Turística", unidad: "profesional", nivel: "6to Semestre", creditos: 3.33, prerrequisitos: ["Iconografía Turística"] },
-    { nombre: "Rice - Organización De Eventos", unidad: "profesional", nivel: "6to Semestre", creditos: 1.6666, prerrequisitos: ["Desarrollo Del Turismo Sostenible"] },
-    { nombre: "Sistemas De Registros Turísticos / Sabre Y Amadeus", unidad: "profesional", nivel: "6to Semestre", creditos: 1.6666, prerrequisitos: ["Operación De Tours"] },
-    { nombre: "Macroeconomía", unidad: "profesional", nivel: "6to Semestre", creditos: 3.33, prerrequisitos: ["Microeconomía"] },
-
-    // Unidad Profesional - 7mo Semestre
-    { nombre: "Patrimonio", unidad: "profesional", nivel: "7mo Semestre", creditos: 5, prerrequisitos: ["Planificación Turística", "Gestión De La Innovación Y Emprendimiento", "Animación Turística", "Rice - Organización De Eventos", "Sistemas De Registros Turísticos / Sabre Y Amadeus", "Macroeconomía"] },
-    { nombre: "Gestión De Calidad Y La Productividad", unidad: "profesional", nivel: "7mo Semestre", creditos: 3.33, prerrequisitos: ["Gestión De La Innovación Y Emprendimiento"] },
-    { nombre: "Operación De Alimentos Y Bebidas", unidad: "profesional", nivel: "7mo Semestre", creditos: 1.6666, prerrequisitos: ["Animación Turística"] },
-    { nombre: "Operación Hotelera", unidad: "profesional", nivel: "7mo Semestre", creditos: 3.33, prerrequisitos: ["Sistemas De Registros Turísticos / Sabre Y Amadeus"] },
-    { nombre: "Sociología Del Turismo", unidad: "profesional", nivel: "7mo Semestre", creditos: 3.33, prerrequisitos: ["Animación Turística"] },
-    { nombre: "Tendencias Turísticas", unidad: "profesional", nivel: "7mo Semestre", creditos: 1.6666, prerrequisitos: ["Macroeconomía"] },
-
-    // Unidad de Titulación - 8vo Semestre
-    { nombre: "Formulación Y Evaluación De Proyectos", unidad: "titulacion", nivel: "8vo Semestre", creditos: 3.33, prerrequisitos: ["Gestión De Calidad Y La Productividad"] },
-    { nombre: "Integración Regional Turística", unidad: "titulacion", nivel: "8vo Semestre", creditos: 5, prerrequisitos: ["Patrimonio", "Gestión De Calidad Y La Productividad", "Operación De Alimentos Y Bebidas", "Operación Hotelera", "Sociología Del Turismo", "Tendencias Turísticas"] },
-    { nombre: "Estrategias Comerciales Turísticas", unidad: "titulacion", nivel: "8vo Semestre", creditos: 3.33, prerrequisitos: ["Tendencias Turísticas"] },
-    { nombre: "Redacción Del Trabajo De Titulación", unidad: "titulacion", nivel: "8vo Semestre", creditos: 1.6666, prerrequisitos: ["Patrimonio", "Gestión De Calidad Y La Productividad", "Operación De Alimentos Y Bebidas", "Operación Hotelera", "Sociología Del Turismo", "Tendencias Turísticas"] },
-    { nombre: "Apreciación Del Arte Y La Cultura", unidad: "titulacion", nivel: "8vo Semestre", creditos: 1.6666, prerrequisitos: ["Patrimonio"] },
-
-    // Unidad de Titulación - 9no Semestre
-    { nombre: "Trabajo De Titulación", unidad: "titulacion", nivel: "9no Semestre", creditos: 10, prerrequisitos: ["Formulación Y Evaluación De Proyectos", "Integración Regional Turística", "Estrategias Comerciales Turísticas", "Redacción Del Trabajo De Titulación", "Apreciación Del Arte Y La Cultura"] },
-
-    // Unidad de Módulos - Inglés
-    { nombre: "Inglés 1", unidad: "modulos", nivel: "Módulo Inglés", creditos: 1.5, prerrequisitos: [] },
-    { nombre: "Inglés 2", unidad: "modulos", nivel: "Módulo Inglés", creditos: 1.5, prerrequisitos: ["Inglés 1"] },
-    { nombre: "Inglés 3", unidad: "modulos", nivel: "Módulo Inglés", creditos: 1.5, prerrequisitos: ["Inglés 2"] },
-    { nombre: "Inglés 4", unidad: "modulos", nivel: "Módulo Inglés", creditos: 1.5, prerrequisitos: ["Inglés 3"] },
-
-    // Unidad de Módulos - Computación
-    { nombre: "Computación 1", unidad: "modulos", nivel: "Módulo Computación", creditos: 1.5, prerrequisitos: [] },
-    { nombre: "Computación 2", unidad: "modulos", nivel: "Módulo Computación", creditos: 1.5, prerrequisitos: ["Computación 1"] },
-    { nombre: "Computación 3", unidad: "modulos", nivel: "Módulo Computación", creditos: 1.5, prerrequisitos: ["Computación 2"] },
-  ];
-
-  // Unidades y niveles para organización y orden
-  const unidadesNiveles = {
-    preuniversitaria: { nombre: "UNIDAD PREUNIVERSITARIA", niveles: ["PRE"] },
-    basica: {
-      nombre: "UNIDAD BÁSICA",
-      niveles: ["1er Semestre", "2do Semestre", "3er Semestre"],
-    },
-    profesional: {
-      nombre: "UNIDAD PROFESIONAL",
-      niveles: ["4to Semestre", "5to Semestre", "6to Semestre", "7mo Semestre"],
-    },
-    titulacion: {
-      nombre: "UNIDAD DE TITULACIÓN",
-      niveles: ["8vo Semestre", "9no Semestre"],
-    },
-    modulos: {
-      nombre: "MÓDULOS",
-      niveles: ["Módulo Inglés", "Módulo Computación"],
-    },
+(() => {
+  // Datos de materias y prerrequisitos con créditos
+  const data = {
+    unidades: [
+      {
+        id: "preuniversitaria",
+        nombre: "Unidad Preuniversitaria (PRE)",
+        colorBaseClass: "unidad-pre",
+        semestres: [
+          {
+            id: "pre",
+            nombre: "PRE",
+            materias: [
+              { id: "Epistemología del Turismo", nombre: "Epistemología del Turismo", creditos: 0, prerrequisitos: [] },
+              { id: "Introducción a la Comunicación Académica", nombre: "Introducción a la Comunicación Académica", creditos: 0, prerrequisitos: [] },
+              { id: "Pensamiento Computacional", nombre: "Pensamiento Computacional", creditos: 0, prerrequisitos: [] }
+            ]
+          }
+        ]
+      },
+      {
+        id: "basica",
+        nombre: "Unidad Básica",
+        colorBaseClass: "unidad-basica",
+        semestres: [
+          {
+            id: "1er-semestre",
+            nombre: "1er Semestre",
+            materias: [
+              { id: "Matemática Financiera", nombre: "Matemática Financiera", creditos: 1.6666, prerrequisitos: ["Pensamiento Computacional"] },
+              { id: "Tecnología Aplicada", nombre: "Tecnología Aplicada", creditos: 3.33, prerrequisitos: ["Pensamiento Computacional"] },
+              { id: "Teoría Del Turismo", nombre: "Teoría Del Turismo", creditos: 3.33, prerrequisitos: ["Epistemología del Turismo"] },
+              { id: "Administración", nombre: "Administración", creditos: 3.33, prerrequisitos: ["Introducción a la Comunicación Académica"] },
+              { id: "Metodología De La Investigación Científica", nombre: "Metodología De La Investigación Científica", creditos: 1.67, prerrequisitos: ["Introducción a la Comunicación Académica"] },
+              { id: "Técnicas De Operación Turística", nombre: "Técnicas De Operación Turística", creditos: 3.33, prerrequisitos: ["Epistemología del Turismo"] }
+            ]
+          },
+          {
+            id: "2do-semestre",
+            nombre: "2do Semestre",
+            materias: [
+              { id: "Cosmos Histórico", nombre: "Cosmos Histórico", creditos: 3.33, prerrequisitos: ["Teoría Del Turismo"] },
+              { id: "Bioentorno Turístico", nombre: "Bioentorno Turístico", creditos: 3.33, prerrequisitos: ["Teoría Del Turismo"] },
+              { id: "Técnicas De Guiar", nombre: "Técnicas De Guiar", creditos: 3.33, prerrequisitos: ["Técnicas De Operación Turística"] },
+              { id: "Hospitalidad", nombre: "Hospitalidad", creditos: 3.33, prerrequisitos: ["Administración"] },
+              { id: "Estadística Descriptiva Administrativa", nombre: "Estadística Descriptiva Administrativa", creditos: 1.6666, prerrequisitos: ["Matemática Financiera", "Tecnología Aplicada"] },
+              { id: "Comunicación Oral Y Escrita", nombre: "Comunicación Oral Y Escrita", creditos: 1.67, prerrequisitos: ["Metodología De La Investigación Científica"] }
+            ]
+          },
+          {
+            id: "3er-semestre",
+            nombre: "3er Semestre",
+            materias: [
+              { id: "Comunidad Y Turismo", nombre: "Comunidad Y Turismo", creditos: 1.6666, prerrequisitos: ["Hospitalidad"] },
+              { id: "Gastronomía Ancestral Y Patrimonio", nombre: "Gastronomía Ancestral Y Patrimonio", creditos: 3.33, prerrequisitos: ["Hospitalidad"] },
+              { id: "Gestión Operativa De Áreas Protegidas", nombre: "Gestión Operativa De Áreas Protegidas", creditos: 3.33, prerrequisitos: ["Técnicas De Guiar"] },
+              { id: "Manifestaciones Plásticas Turísticas", nombre: "Manifestaciones Plásticas Turísticas", creditos: 3.33, prerrequisitos: ["Cosmos Histórico", "Comunicación Oral Y Escrita"] },
+              { id: "Prospección Intercultural Ecuatoriana", nombre: "Prospección Intercultural Ecuatoriana", creditos: 1.6666, prerrequisitos: ["Cosmos Histórico"] },
+              { id: "Contabilidad General", nombre: "Contabilidad General", creditos: 3.33, prerrequisitos: ["Estadística Descriptiva Administrativa"] }
+            ]
+          }
+        ]
+      },
+      {
+        id: "profesional",
+        nombre: "Unidad Profesional",
+        colorBaseClass: "unidad-profesional",
+        semestresTop: [
+          {
+            id: "4to-semestre",
+            nombre: "4to Semestre",
+            materias: [
+              { id: "Finanzas De Corto Plazo", nombre: "Finanzas De Corto Plazo", creditos: 3.33, prerrequisitos: ["Contabilidad General"] },
+              { id: "Gestión Territorial En Turismo", nombre: "Gestión Territorial En Turismo", creditos: 3.33, prerrequisitos: ["Gestión Operativa De Áreas Protegidas", "Manifestaciones Plásticas Turísticas"] },
+              { id: "Gestión Del Talento Humano Por Competencias", nombre: "Gestión Del Talento Humano Por Competencias", creditos: 2.5, prerrequisitos: ["Contabilidad General"] },
+              { id: "Folklore", nombre: "Folklore", creditos: 1.6666, prerrequisitos: ["Manifestaciones Plásticas Turísticas", "Prospección Intercultural Ecuatoriana"] },
+              { id: "Codificación Turística", nombre: "Codificación Turística", creditos: 3.33, prerrequisitos: ["Gestión Operativa De Áreas Protegidas"] },
+              { id: "Campismo Y Recreación Turística", nombre: "Campismo Y Recreación Turística", creditos: 1.6666, prerrequisitos: ["Gastronomía Ancestral Y Patrimonio", "Comunidad Y Turismo"] }
+            ]
+          },
+          {
+            id: "5to-semestre",
+            nombre: "5to Semestre",
+            materias: [
+              { id: "Arqueología", nombre: "Arqueología", creditos: 1.6666, prerrequisitos: ["Folklore"] },
+              { id: "Microeconomía", nombre: "Microeconomía", creditos: 3.33, prerrequisitos: ["Finanzas De Corto Plazo"] },
+              { id: "Iconografía Turística", nombre: "Iconografía Turística", creditos: 1.6666, prerrequisitos: ["Campismo Y Recreación Turística"] },
+              { id: "Operación De Tours", nombre: "Operación De Tours", creditos: 3.33, prerrequisitos: ["Codificación Turística", "Gestión Territorial En Turismo"] },
+              { id: "Fomento Y Regulaciones A La Actividad Turística", nombre: "Fomento Y Regulaciones A La Actividad Turística", creditos: 3.33, prerrequisitos: ["Gestión Del Talento Humano Por Competencias"] },
+              {
+                id: "Desarrollo Del Turismo Sostenible",
+                nombre: "Desarrollo Del Turismo Sostenible",
+                creditos: 5,
+                prerrequisitos: [
+                  "Matemática Financiera", "Tecnología Aplicada", "Teoría Del Turismo", "Administración", "Metodología De La Investigación Científica",
+                  "Técnicas De Operación Turística", "Cosmos Histórico", "Bioentorno Turístico", "Técnicas De Guiar", "Hospitalidad",
+                  "Estadística Descriptiva Administrativa", "Comunicación Oral Y Escrita", "Comunidad Y Turismo", "Gastronomía Ancestral Y Patrimonio",
+                  "Gestión Operativa De Áreas Protegidas", "Manifestaciones Plásticas Turísticas", "Prospección Intercultural Ecuatoriana",
+                  "Contabilidad General", "Finanzas De Corto Plazo", "Gestión Territorial En Turismo", "Gestión Del Talento Humano Por Competencias",
+                  "Folklore", "Codificación Turística", "Campismo Y Recreación Turística"
+                ]
+              }
+            ]
+          }
+        ],
+        semestresBottom: [
+          {
+            id: "6to-semestre",
+            nombre: "6to Semestre",
+            materias: [
+              {
+                id: "Planificación Turística",
+                nombre: "Planificación Turística",
+                creditos: 5,
+                prerrequisitos: [
+                  "Matemática Financiera", "Tecnología Aplicada", "Teoría Del Turismo", "Administración", "Metodología De La Investigación Científica",
+                  "Técnicas De Operación Turística", "Cosmos Histórico", "Bioentorno Turístico", "Técnicas De Guiar", "Hospitalidad",
+                  "Estadística Descriptiva Administrativa", "Comunicación Oral Y Escrita", "Comunidad Y Turismo", "Gastronomía Ancestral Y Patrimonio",
+                  "Gestión Operativa De Áreas Protegidas", "Manifestaciones Plásticas Turísticas", "Prospección Intercultural Ecuatoriana",
+                  "Contabilidad General", "Finanzas De Corto Plazo", "Gestión Territorial En Turismo", "Gestión Del Talento Humano Por Competencias",
+                  "Folklore", "Codificación Turística", "Campismo Y Recreación Turística", "Arqueología", "Microeconomía", "Iconografía Turística",
+                  "Operación De Tours", "Fomento Y Regulaciones A La Actividad Turística", "Desarrollo Del Turismo Sostenible"
+                ]
+              },
+              { id: "Gestión De La Innovación Y Emprendimiento", nombre: "Gestión De La Innovación Y Emprendimiento", creditos: 3.33, prerrequisitos: ["Fomento Y Regulaciones A La Actividad Turística"] },
+              { id: "Animación Turística", nombre: "Animación Turística", creditos: 3.33, prerrequisitos: ["Iconografía Turística"] },
+              { id: "Rice - Organización De Eventos", nombre: "Rice - Organización De Eventos", creditos: 1.6666, prerrequisitos: ["Desarrollo Del Turismo Sostenible"] },
+              { id: "Sistemas De Registros Turísticos / Sabre Y Amadeus", nombre: "Sistemas De Registros Turísticos / Sabre Y Amadeus", creditos: 1.6666, prerrequisitos: ["Operación De Tours"] },
+              { id: "Macroeconomía", nombre: "Macroeconomía", creditos: 3.33, prerrequisitos: ["Microeconomía"] }
+            ]
+          },
+          {
+            id: "7mo-semestre",
+            nombre: "7mo Semestre",
+            materias: [
+              {
+                id: "Patrimonio",
+                nombre: "Patrimonio",
+                creditos: 5,
+                prerrequisitos: [
+                  "Planificación Turística", "Gestión De La Innovación Y Emprendimiento", "Animación Turística",
+                  "Rice - Organización De Eventos", "Sistemas De Registros Turísticos / Sabre Y Amadeus", "Macroeconomía"
+                ]
+              },
+              { id: "Gestión De Calidad Y La Productividad", nombre: "Gestión De Calidad Y La Productividad", creditos: 3.33, prerrequisitos: ["Gestión De La Innovación Y Emprendimiento"] },
+              { id: "Operación De Alimentos Y Bebidas", nombre: "Operación De Alimentos Y Bebidas", creditos: 1.6666, prerrequisitos: ["Animación Turística"] },
+              { id: "Operación Hotelera", nombre: "Operación Hotelera", creditos: 3.33, prerrequisitos: ["Sistemas De Registros Turísticos / Sabre Y Amadeus"] },
+              { id: "Sociología Del Turismo", nombre: "Sociología Del Turismo", creditos: 3.33, prerrequisitos: ["Animación Turística"] },
+              { id: "Tendencias Turísticas", nombre: "Tendencias Turísticas", creditos: 1.6666, prerrequisitos: ["Macroeconomía"] }
+            ]
+          }
+        ]
+      },
+      {
+        id: "titulacion",
+        nombre: "Unidad de Titulación",
+        colorBaseClass: "unidad-titulacion",
+        semestres: [
+          {
+            id: "8vo-semestre",
+            nombre: "8vo Semestre",
+            materias: [
+              { id: "Formulación Y Evaluación De Proyectos", nombre: "Formulación Y Evaluación De Proyectos", creditos: 3.33, prerrequisitos: ["Gestión De Calidad Y La Productividad"] },
+              {
+                id: "Integración Regional Turística",
+                nombre: "Integración Regional Turística",
+                creditos: 5,
+                prerrequisitos: ["Patrimonio", "Gestión De Calidad Y La Productividad", "Operación De Alimentos Y Bebidas", "Operación Hotelera", "Sociología Del Turismo", "Tendencias Turísticas"]
+              },
+              { id: "Estrategias Comerciales Turísticas", nombre: "Estrategias Comerciales Turísticas", creditos: 3.33, prerrequisitos: ["Tendencias Turísticas"] },
+              { id: "Redacción Del Trabajo De Titulación", nombre: "Redacción Del Trabajo De Titulación", creditos: 1.6666, prerrequisitos: ["Patrimonio", "Gestión De Calidad Y La Productividad", "Operación De Alimentos Y Bebidas", "Operación Hotelera", "Sociología Del Turismo", "Tendencias Turísticas"] },
+              { id: "Apreciación Del Arte Y La Cultura", nombre: "Apreciación Del Arte Y La Cultura", creditos: 1.6666, prerrequisitos: ["Patrimonio"] },
+              { id: "Turismo Y Gobernanza", nombre: "Turismo Y Gobernanza", creditos: 3.33, prerrequisitos: ["Operación De Alimentos Y Bebidas", "Sociología Del Turismo"] }
+            ]
+          },
+          {
+            id: "9no-semestre",
+            nombre: "9no Semestre",
+            materias: [
+              {
+                id: "Gestión Integral De Destinos Turísticos",
+                nombre: "Gestión Integral De Destinos Turísticos",
+                creditos: 5,
+                prerrequisitos: ["Formulación Y Evaluación De Proyectos", "Integración Regional Turística", "Estrategias Comerciales Turísticas", "Redacción Del Trabajo De Titulación", "Apreciación Del Arte Y La Cultura", "Turismo Y Gobernanza"]
+              },
+              { id: "Técnicas De Negociación Y Comunicación Para El Turismo", nombre: "Técnicas De Negociación Y Comunicación Para El Turismo", creditos: 3.3333, prerrequisitos: ["Estrategias Comerciales Turísticas"] },
+              { id: "Realidad Nacional Y Geopolítica", nombre: "Realidad Nacional Y Geopolítica", creditos: 1.67, prerrequisitos: ["Turismo Y Gobernanza"] },
+              { id: "Trabajo De Titulación", nombre: "Trabajo De Titulación", creditos: 3.33, prerrequisitos: ["Redacción Del Trabajo De Titulación"] },
+              { id: "Contratación Pública", nombre: "Contratación Pública", creditos: 3.33, prerrequisitos: ["Formulación Y Evaluación De Proyectos"] },
+              { id: "Liderazgo", nombre: "Liderazgo", creditos: 1.6666, prerrequisitos: ["Apreciación Del Arte Y La Cultura"] }
+            ]
+          }
+        ]
+      }
+    ]
   };
 
-  const STORAGE_KEY = "mallaAprobadasTurismo";
+  // Estado de aprobaciones cargado desde localStorage o vacío
+  let estadoAprobadas = JSON.parse(localStorage.getItem('mallaTurismoAprobadas') || '{}');
 
-  function guardarEstado(aprobadas) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(aprobadas));
-  }
-  function cargarEstado() {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-  }
-
-  function puedeAprobar(materia, aprobadas) {
-    return materia.prerrequisitos.every(pr => aprobadas.includes(pr));
+  // Función para guardar estado en localStorage
+  function guardarEstado() {
+    localStorage.setItem('mallaTurismoAprobadas', JSON.stringify(estadoAprobadas));
   }
 
-  function crearMalla() {
-    const container = document.getElementById("malla");
-    container.innerHTML = "";
+  // Función para comprobar si materia está aprobada
+  function estaAprobada(id) {
+    return estadoAprobadas[id] === true;
+  }
 
-    for (const [unidadKey, unidadData] of Object.entries(unidadesNiveles)) {
-      const unidadDiv = document.createElement("section");
-      unidadDiv.classList.add("unidad", `unidad-${unidadKey}`);
+  // Comprobar si todos los prerrequisitos están aprobados
+  function puedeAprobar(materia) {
+    return materia.prerrequisitos.every(p => estaAprobada(p));
+  }
 
-      const unidadTitulo = document.createElement("h2");
-      unidadTitulo.textContent = unidadData.nombre;
-      unidadDiv.appendChild(unidadTitulo);
+  // Crear tooltip con lista de pendientes
+  function tooltipPrerrequisitos(materia) {
+    const faltantes = materia.prerrequisitos.filter(p => !estaAprobada(p));
+    if(faltantes.length === 0) return '';
+    return 'Faltan:\n' + faltantes.join('\n');
+  }
 
-      unidadData.niveles.forEach(nivel => {
-        const nivelDiv = document.createElement("div");
-        nivelDiv.classList.add("nivel");
+  // Función para crear tarjeta materia
+  function crearMateria(materia, colorBaseClass) {
+    const div = document.createElement('div');
+    div.className = 'materia';
+    div.textContent = materia.nombre;
+    div.dataset.id = materia.id;
 
-        const nivelTitulo = document.createElement("h3");
-        nivelTitulo.textContent = nivel;
-        nivelDiv.appendChild(nivelTitulo);
+    const aprobada = estaAprobada(materia.id);
+    const desbloqueada = puedeAprobar(materia) || aprobada;
 
-        const materiasNivel = materias
-          .filter(m => m.unidad === unidadKey && m.nivel === nivel)
-          .sort((a, b) => {
-            if (b.creditos !== a.creditos) return b.creditos - a.creditos;
-            return a.nombre.localeCompare(b.nombre);
-          });
-
-        const lista = document.createElement("div");
-        lista.classList.add("materias-lista");
-
-        const aprobadas = cargarEstado();
-
-        materiasNivel.forEach(m => {
-          const divMateria = document.createElement("div");
-          divMateria.classList.add("materia");
-          divMateria.textContent = m.nombre;
-          divMateria.setAttribute("data-creditos", m.creditos.toFixed(2));
-          if (aprobadas.includes(m.nombre)) {
-            divMateria.classList.add("approved");
-          } else if (!puedeAprobar(m, aprobadas)) {
-            divMateria.classList.add("locked");
-          }
-          divMateria.addEventListener("click", () => {
-            const estado = cargarEstado();
-            if (divMateria.classList.contains("locked")) return;
-            if (estado.includes(m.nombre)) {
-              const idx = estado.indexOf(m.nombre);
-              estado.splice(idx, 1);
-            } else {
-              estado.push(m.nombre);
-            }
-            guardarEstado(estado);
-            crearMalla();
-          });
-          lista.appendChild(divMateria);
-        });
-
-        nivelDiv.appendChild(lista);
-        unidadDiv.appendChild(nivelDiv);
-      });
-
-      container.appendChild(unidadDiv);
+    if (aprobada) {
+      div.classList.add('aprobada');
+    } else if (!desbloqueada) {
+      div.classList.add('bloqueada');
+      div.dataset.tooltip = tooltipPrerrequisitos(materia);
     }
+
+    // Color base ajustado por clase de unidad y estado
+    // La clase color base la maneja CSS en el contenedor unidad
+
+    // Evento click: toggle aprobado si desbloqueado
+    div.addEventListener('click', () => {
+      if (div.classList.contains('bloqueada')) return; // no clickeable
+      if (estaAprobada(materia.id)) {
+        delete estadoAprobadas[materia.id];
+      } else {
+        estadoAprobadas[materia.id] = true;
+      }
+      guardarEstado();
+      actualizarMalla();
+    });
+
+    return div;
   }
 
-  window.addEventListener("DOMContentLoaded", () => {
-    crearMalla();
-  });
+  // Crear semestre con sus materias
+  function crearSemestre(semestre, colorBaseClass) {
+    const divSemestre = document.createElement('div');
+    divSemestre.className = 'semestre';
+    const h3 = document.createElement('h3');
+    h3.textContent = semestre.nombre;
+    divSemestre.appendChild(h3);
+
+    // Ordenar materias por crédito descendente, y alfabético en empate
+    const materiasOrdenadas = [...semestre.materias].sort((a,b) => {
+      if (b.creditos !== a.creditos) return b.creditos - a.creditos;
+      return a.nombre.localeCompare(b.nombre);
+    });
+
+    materiasOrdenadas.forEach(m => {
+      const matElem = crearMateria(m, colorBaseClass);
+      divSemestre.appendChild(matElem);
+    });
+
+    return divSemestre;
+  }
+
+  // Crear unidad completa (unidades con semestres)
+  function crearUnidad(unidad) {
+    const contUnidad = document.createElement('section');
+    contUnidad.className = `unidad ${unidad.colorBaseClass}`;
+
+    const titulo = document.createElement('h2');
+    titulo.textContent = unidad.nombre;
+    contUnidad.appendChild(titulo);
+
+    if (unidad.id === 'profesional') {
+      // Para unidad profesional: dos filas (top y bottom)
+      // Top
+      const contTop = document.createElement('div');
+      contTop.className = 'unidad-profesional-top';
+      unidad.semestresTop.forEach(sem => {
+        contTop.appendChild(crearSemestre(sem, unidad.colorBaseClass));
+      });
+      contUnidad.appendChild(contTop);
+      // Bottom
+      const contBottom = document.createElement('div');
+      contBottom.className = 'unidad-profesional-bottom';
+      unidad.semestresBottom.forEach(sem => {
+        contBottom.appendChild(crearSemestre(sem, unidad.colorBaseClass));
+      });
+      contUnidad.appendChild(contBottom);
+    } else {
+      // Unidades normales con una fila horizontal de semestres
+      const contSemestres = document.createElement('div');
+      contSemestres.className = 'semestres';
+      unidad.semestres.forEach(sem => {
+        contSemestres.appendChild(crearSemestre(sem, unidad.colorBaseClass));
+      });
+      contUnidad.appendChild(contSemestres);
+    }
+
+    return contUnidad;
+  }
+
+  // Actualizar toda la malla: pintar y actualizar estadísticas
+  function actualizarMalla() {
+    const contenedor = document.getElementById('mallaCurricular');
+    contenedor.innerHTML = '';
+
+    let totalMaterias = 0;
+    let aprobadasCount = 0;
+    let creditosAprobados = 0;
+
+    // Crear unidades en orden
+    data.unidades.forEach(unidad => {
+      const unidadElem = crearUnidad(unidad);
+      contenedor.appendChild(unidadElem);
+
+      // Contar materias y aprobadas para estadísticas
+      let materiasUnidad = [];
+      if (unidad.id === 'profesional') {
+        unidad.semestresTop.forEach(s => materiasUnidad = materiasUnidad.concat(s.materias));
+        unidad.semestresBottom.forEach(s => materiasUnidad = materiasUnidad.concat(s.materias));
+      } else {
+        unidad.semestres.forEach(s => materiasUnidad = materiasUnidad.concat(s.materias));
+      }
+      totalMaterias += materiasUnidad.length;
+      materiasUnidad.forEach(m => {
+        if (estaAprobada(m.id)) {
+          aprobadasCount++;
+          creditosAprobados += m.creditos;
+        }
+      });
+    });
+
+    // Actualizar stats
+    document.getElementById('totalMaterias').textContent = totalMaterias;
+    document.getElementById('aprobadasCount').textContent = aprobadasCount;
+    document.getElementById('creditosAprobados').textContent = creditosAprobados.toFixed(2);
+  }
+
+  // Inicializar la malla
+  actualizarMalla();
+
+})();
 </script>
 
 </body>
