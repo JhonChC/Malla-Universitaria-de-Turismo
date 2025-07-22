@@ -4,24 +4,19 @@
   <meta charset="UTF-8">
   <title>Malla Curricular - Licenciatura en Turismo (En Línea)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Montserrat:wght@400;600;900&display=swap" rel="stylesheet">
   <style>
-    /* Paletas y estilos de base */
     :root {
       --fondo-malla: #F7F7F7;
       --bordes: #e0e0e0;
-      /* Unidad Pre - Azules */
       --pre-grad: linear-gradient(180deg, #E0F7FA 50%, #80DEEA 100%);
       --pre-title: #008BA3;
-      /* Unidad Básica - Verde menta, Naranja suave, Violeta lavanda */
       --basic1-grad: linear-gradient(180deg, #E8F5E9 50%, #A5D6A7 100%);
       --basic1-title: #1B5E20;
       --basic2-grad: linear-gradient(180deg, #FFF3E0 50%, #FFA726 100%);
       --basic2-title: #EF6C00;
       --basic3-grad: linear-gradient(180deg, #F3E5F5 50%, #CE93D8 100%);
       --basic3-title: #6A1B9A;
-      /* Profesional - Rosa claro, Amarillo pastel, Rojo amanecer, Verde bosque */
       --pro4-grad: linear-gradient(180deg, #FCE4EC 50%, #EC407A 100%);
       --pro4-title: #AD1457;
       --pro5-grad: linear-gradient(180deg, #FFFDE7 50%, #FFF59D 100%);
@@ -30,17 +25,14 @@
       --pro6-title: #C62828;
       --pro7-grad: linear-gradient(180deg, #E8F5E9 50%, #A5D6A7 100%);
       --pro7-title: #1B5E20;
-      /* Titulación - Azul profundo (8), Grises urbanos (9) */
       --tit8-grad: linear-gradient(180deg, #E3F2FD 50%, #90CAF9 100%);
       --tit8-title: #0D47A1;
       --tit9-grad: linear-gradient(180deg, #FAFAFA 0%, #757575 70%);
       --tit9-title: #424242;
-      /* Módulos: inglés, computación */
       --mod-ingles-grad: linear-gradient(180deg, #E0F7FA 50%, #00BCD4 100%);
       --mod-ingles-title: #006064;
       --mod-comp-grad: linear-gradient(180deg, #F3E5F5 50%, #CE93D8 100%);
       --mod-comp-title: #6A1B9A;
-      /* Card common */
       --shadow: 0 2px 8px rgba(30,70,120,0.08);
       --lock: #BDBDBD;
     }
@@ -98,7 +90,6 @@
     main { margin: 2rem auto; max-width: 1600px; }
     .unit-section {
       margin-bottom: 4rem;
-      /* padding:0 3vw; */
     }
     .unit-header {
       font-size: 2.1rem;
@@ -122,7 +113,7 @@
       gap: .92em;
       align-items: center;
       background: #fff;
-      min-width: 220px; max-width: 320px; /* responsive grid */
+      min-width: 220px; max-width: 320px;
       border-radius: 1em;
       box-shadow: var(--shadow);
       padding: 1.2em 0 1.6em 0;
@@ -140,7 +131,6 @@
       border-radius: .5em;
       margin-top: .08em;
     }
-    /* Paleta para cada columna */
     .pre {background: var(--pre-grad);}
     .pre-title{color: var(--pre-title);}
     .basic1{background: var(--basic1-grad);}
@@ -165,7 +155,6 @@
     .mod-ingles-title{color: var(--mod-ingles-title);}
     .mod-comp{background: var(--mod-comp-grad);}
     .mod-comp-title{color: var(--mod-comp-title);}
-    /* Cards asignatura */
     .course-card {
       background: #fff;
       border-radius: .9em;
@@ -236,7 +225,6 @@
       visibility: visible;
       opacity: .98;
     }
-    /* Responsive redesign */
     @media (max-width:800px) {
       .columns-row { flex-direction: column; align-items: center; }
       .semester-col, .module-col { min-width: 95vw; max-width: 97vw; }
@@ -255,27 +243,19 @@
   <header>
     <h1>LICENCIATURA EN TURISMO <span style="font-size:1.5em">🌐</span></h1>
     <div class="desc">Malla Curricular Interactiva — Modalidad en Línea</div>
-    <div class="stats" id="stats">
-      <!-- stats will be inserted by JS -->
-    </div>
+    <div class="stats" id="stats"></div>
   </header>
-  <main id="main-content">
-    <!-- JS generates all sections here -->
-  </main>
+  <main id="main-content"></main>
   <footer style="text-align:center;padding-top:2em;color:#8392ad;font-size:.95em;">
     &copy; <span id="foot-year"></span> — Malla Dinámica de Turismo
   </footer>
-
-  <script>
-/* ======= DATOS DE LA MALLA & CONFIGURACIÓN ======= */
-
+<script>
 const DATA = {
   info:{
     carrera: 'LICENCIATURA EN TURISMO EN LÍNEA',
     materiasTotal: 57,
     modulosTotal: 9
   },
-  // UNIDADES PRINCIPALES Y SU CONTENIDO
   unidades: [
     {
       nombre: "Unidad Preuniversitaria",
@@ -357,7 +337,7 @@ const DATA = {
             {id:"codit", nombre:"Codificación Turística", icon:"🧩", credits:3.33, deps:["gop"]},
             {id:"camping", nombre:"Campismo Y Recreación Turística", icon:"⛺", credits:1.6666, deps:["gastrpat","comytur"]},
           ]
-        }, 
+        },
         {
           nombre:"5to Semestre",
           clases:"pro5",
@@ -473,42 +453,16 @@ const DATA = {
     }
   ]
 };
-
-// Mapa de dependencias id => materia
 let cursosMap = {}
 function buildCursosMap() {
   cursosMap = {};
-  DATA.unidades.forEach(unit =>{
-    unit.semestres.forEach(s=>s.cursos.forEach(c=>{
-      cursosMap[c.id]=c;
-    }))
-  });
-  DATA.modulos.forEach(mod=>{
-    mod.niveles.forEach(c=>{
-      cursosMap[c.id]=c
-    });
-  });
+  DATA.unidades.forEach(unit =>{unit.semestres.forEach(s=>s.cursos.forEach(c=>{cursosMap[c.id]=c;}))});
+  DATA.modulos.forEach(mod=>{mod.niveles.forEach(c=>{cursosMap[c.id]=c})});
 }
 buildCursosMap();
-
-/* === STORAGE === */
-function saveProgress() {
-  localStorage.setItem('turismo_progress', JSON.stringify(state.aprobadas));
-}
-function loadProgress() {
-  try {
-    let raw = localStorage.getItem('turismo_progress');
-    if (raw) return JSON.parse(raw);
-  } catch(e) {}
-  return {};
-}
-
-/* === ESTADO DE APROBACIÓN === */
-const state = {
-  aprobadas: loadProgress() || {}
-};
-
-/* === GENERAR TOOLTIP DE PRERREQUISITOS FALTANTES === */
+function saveProgress() {localStorage.setItem('turismo_progress', JSON.stringify(state.aprobadas));}
+function loadProgress() {try {let raw=localStorage.getItem('turismo_progress'); if(raw) return JSON.parse(raw);} catch(e) {} return {};}
+const state = { aprobadas: loadProgress()||{} };
 function tooltipDependencias(asig) {
   if (!asig.deps || !asig.deps.length) return "";
   let faltan = asig.deps.filter(d=>!state.aprobadas[d]);
@@ -516,41 +470,13 @@ function tooltipDependencias(asig) {
   let lista = faltan.map(did=> (cursosMap[did]?.icon?"<b>"+cursosMap[did].icon+"</b> ":"") + (cursosMap[did]?.nombre||did) ).join("<br>");
   return `<div class="tooltip">Debes aprobar previamente:<br>${lista}</div>`;
 }
-
-/* === CALCULAR ESTADÍSTICAS === */
 function calcularStats() {
   let total=0, aprobadas=0, creditos=0, modulosTotal=0, modAprob=0, credMod=0, credMalla=0;
-  // Materias
-  DATA.unidades.forEach(unit=>{
-    unit.semestres.forEach(sem=>{
-      sem.cursos.forEach(asig=>{
-        total++;
-        if(state.aprobadas[asig.id]) {
-          aprobadas++;
-          credMalla+=parseFloat(asig.credits)||0;
-        }
-      });
-    });
-  });
-  // Módulos
-  DATA.modulos.forEach(mod=>{
-    mod.niveles.forEach(nvl=>{
-      modulosTotal++;
-      if(state.aprobadas[nvl.id]) {
-        modAprob++;
-        credMod+=parseFloat(nvl.credits)||0;
-      }
-    });
-  });
-  return {
-    total, aprobadas, creditos: +(credMalla+credMod).toFixed(2), credMalla:+credMalla.toFixed(2), credMod:+credMod.toFixed(2),
-    modulosTotal, modAprob
-  }
+  DATA.unidades.forEach(unit=>{unit.semestres.forEach(sem=>{sem.cursos.forEach(asig=>{total++;if(state.aprobadas[asig.id]){aprobadas++;credMalla+=parseFloat(asig.credits)||0;}});});});
+  DATA.modulos.forEach(mod=>{mod.niveles.forEach(nvl=>{modulosTotal++;if(state.aprobadas[nvl.id]){modAprob++;credMod+=parseFloat(nvl.credits)||0;}});});
+  return {total, aprobadas, creditos: +(credMalla+credMod).toFixed(2), credMalla:+credMalla.toFixed(2), credMod:+credMod.toFixed(2),modulosTotal,modAprob}
 }
-
-/* ========== CREACIÓN DE LA MALLA ============ */
 function renderMalla() {
-  // Actualiza estadísticas
   let stats = calcularStats();
   document.getElementById("stats").innerHTML = `
     <div class="stat-block"><span>Materias Aprobadas</span><strong>${stats.aprobadas}</strong> / ${DATA.info.materiasTotal}</div>
@@ -561,35 +487,27 @@ function renderMalla() {
   `;
   let main = document.getElementById("main-content");
   main.innerHTML = "";
-
-  // UNIDADES ACADÉMICAS
   DATA.unidades.forEach(unit=>{
     let s = document.createElement("section");
     s.className="unit-section";
     s.innerHTML = `<div class="unit-header">${unit.icon||""} ${unit.nombre}</div>`;
     let row = document.createElement("div");
     row.className="columns-row";
-    unit.semestres.forEach( (sem, i) =>{
+    unit.semestres.forEach(sem=>{
       let col = document.createElement("div");
       col.className=`semester-col ${sem.clases}`;
       col.innerHTML = `<div class="semester-title ${sem.titleClass}">${sem.nombre}</div>`;
-      sem.cursos.forEach( asig=>{
+      sem.cursos.forEach(asig=>{
         let locked=false, faltan=[];
-        if(asig.deps && asig.deps.length) {
-          faltan = asig.deps.filter(d=>!state.aprobadas[d]);
-          locked = faltan.length>0;
-        }
-        // Materia card
+        if(asig.deps && asig.deps.length) {faltan = asig.deps.filter(d=>!state.aprobadas[d]);locked = faltan.length>0;}
         let card = document.createElement("div");
         card.tabIndex = locked?0:1;
         card.className="course-card"+(locked?" locked":"")+(state.aprobadas[asig.id]?" approved":"");
         card.setAttribute("data-id", asig.id);
-
         card.innerHTML = `<span class="icon">${asig.icon||""}</span>
           <span class="name">${asig.nombre}</span>
           <span class="credits">${asig.credits}cr</span>
           ${locked?tooltipDependencias(asig):""}`;
-        // Evento marcar/desmarcar
         if(!locked) {
           card.onclick=()=>{
             state.aprobadas[asig.id]=!state.aprobadas[asig.id];
@@ -603,8 +521,6 @@ function renderMalla() {
     s.appendChild(row);
     main.appendChild(s);
   });
-
-  // APARTADO DE MÓDULOS
   let modSec = document.createElement("section");
   modSec.className="unit-section";
   modSec.innerHTML = `<div class="unit-header">🧩 Módulos Complementarios</div>
@@ -615,10 +531,10 @@ function renderMalla() {
     let col = document.createElement("div");
     col.className=`module-col ${mod.clases}`;
     col.innerHTML = `<div class="module-title ${mod.titleClass}">${mod.icon||""} ${mod.unidad}</div>`;
-    mod.niveles.forEach( nvl=>{
+    mod.niveles.forEach(nvl=>{
       let locked=false,faltan=[];
       if(nvl.deps && nvl.deps.length) {
-        faltan = nvl.deps.filter(d=>!state.aprobadas[d]);
+        faltan = nvl.deps.filter(d=>!state.aprobadas[nvl.id]);
         locked = faltan.length>0;
       }
       let card = document.createElement("div");
@@ -640,12 +556,10 @@ function renderMalla() {
   modSec.appendChild(modRow);
   main.appendChild(modSec);
 }
-
-// On ready
 window.onload=()=> {
   renderMalla();
   document.getElementById("foot-year").innerText = new Date().getFullYear();
 };
-  </script>
+</script>
 </body>
 </html>
